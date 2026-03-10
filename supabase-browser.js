@@ -2,225 +2,131 @@
   'use strict';
 
   // ─── CONFIG ────────────────────────────────────────────────────────────────
-  const PROJECT_REF        = 'hgxtrafpxmugfxplvesv';
-  const SUPABASE_URL       = 'https://hgxtrafpxmugfxplvesv.supabase.co';
-  const SUPABASE_ANON_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhneHRyYWZweG11Z2Z4cGx2ZXN2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjgxNzYsImV4cCI6MjA4ODY0NDE3Nn0.c3K1zuW7YOIXd_Q7iFAnOvSMqjjcfuaDC-lHbAq4Yp8';
-  const SESSION_STORAGE_KEY = 'sb-' + PROJECT_REF + '-auth-token';
-  const COMPAT_SESSION_KEY  = 'slipcraft_session';
+  const PROJECT_REF       = 'hgxtrafpxmugfxplvesv';
+  const SUPABASE_URL      = 'https://hgxtrafpxmugfxplvesv.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhneHRyYWZweG11Z2Z4cGx2ZXN2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjgxNzYsImV4cCI6MjA4ODY0NDE3Nn0.c3K1zuW7YOIXd_Q7iFAnOvSMqjjcfuaDC-lHbAq4Yp8';
+  const SESSION_KEY       = 'sb-' + PROJECT_REF + '-auth-token';
+  const COMPAT_KEY        = 'slipcraft_session';
 
-  const AUTH_PATHS = new Set(['/login', '/login.html', '/register', '/register.html']);
-
-  const PROTECTED_ROOTS = new Set([
-    '/dashboard', '/dashboard.html',
-    '/transactions', '/transactions.html',
-    '/vendors', '/vendors.html',
-    '/buy-point', '/buy-point.html', '/buy-points',
-    '/profile', '/profile.html', '/profile/edit',
-    '/services', '/services.html',
-    '/orders', '/orders.html',
-    '/referral', '/services/referral.html',
-    '/help', '/help.html',
-    '/contact', '/contact.html'
-  ]);
-
-  // ─── ROUTE MAP: clean URL → static .html file ──────────────────────────────
-  // FIX: Added ALL service sub-routes that were missing, causing dead clicks
-  const ROUTE_MAP = new Map([
-    ['/', '/index.html'],
-    ['/dashboard', '/dashboard.html'],
-    ['/about', '/about.html'],
-    ['/transactions', '/transactions.html'],
-    ['/vendors', '/vendors.html'],
-    ['/services', '/services.html'],
-    ['/profile', '/profile.html'],
-    ['/profile/edit', '/profile.html'],
-    ['/orders', '/orders.html'],
-    ['/referral', '/services/referral.html'],
-    ['/buy-point', '/buy-point.html'],
-    ['/buy-points', '/buy-point.html'],
-    ['/help', '/help.html'],
-    ['/contact', '/contact.html'],
-    ['/login', '/login.html'],
-    ['/register', '/register.html'],
-
-    // ── Service pages that were missing (causing dead clicks) ──
-    ['/services/referral', '/services/referral.html'],
-    ['/services/faker', '/services/faker.html'],
-    ['/services/faker/generate', '/services/faker/generate.html'],
-    ['/services/opay', '/services/opay.html'],
-    ['/services/opay/bank-transfer', '/services/opay/bank-transfer.html'],
-    ['/services/pass-clone', '/services/pass-clone.html'],
-    ['/services/pass-clone/link-status', '/services/pass-clone/link-status.html'],
-    ['/services/support-page', '/services/support-page.html'],
-    ['/services/crypto-receipt', '/services/crypto-receipt.html'],
-    ['/services/crypto-receipt/binance', '/services/crypto-receipt/binance.html'],
-    ['/services/crypto-receipt/binance/store', '/services/crypto-receipt/binance/store.html'],
-    ['/services/crypto-receipt/bybit', '/services/crypto-receipt/bybit.html'],
-    ['/services/crypto-receipt/bybit/store', '/services/crypto-receipt/bybit/store.html'],
-    ['/services/crypto-receipt/cashapp', '/services/crypto-receipt/cashapp.html'],
-    ['/services/crypto-receipt/paypal', '/services/crypto-receipt/paypal.html'],
-    ['/services/scripts', '/services/scripts/my-purchases.html'],
-    ['/services/scripts/my-purchases', '/services/scripts/my-purchases.html'],
-
-    // API stubs (static JSON responses)
-    ['/api/banks/ng', '/api/banks/ng.html'],
-    ['/api/accounts/resolve', '/api/accounts/resolve.html'],
-  ]);
-
-  // ─── HELPERS ───────────────────────────────────────────────────────────────
-  function normalizePath(p) {
-    p = p || '/';
-    if (!p.startsWith('/')) p = '/' + p;
-    if (p.length > 1) p = p.replace(/\/+$/, '');
-    return p;
-  }
-
-  function currentPath() {
-    return normalizePath(window.location.pathname);
-  }
-
-  function isProtectedPath(p) {
-    p = normalizePath(p);
-    if (PROTECTED_ROOTS.has(p)) return true;
-    if (p.startsWith('/services/')) return true;
-    if (p.startsWith('/order/')) return true;
-    return false;
-  }
-
-  function htmlEncode(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-  }
-
-  function setCompatSession(on) {
+  // ─── SESSION HELPERS ───────────────────────────────────────────────────────
+  function readSession() {
     try {
-      if (on) window.localStorage.setItem(COMPAT_SESSION_KEY, '1');
-      else     window.localStorage.removeItem(COMPAT_SESSION_KEY);
-    } catch (e) {}
-  }
-
-  // ─── SESSION / SUPABASE CLIENT ─────────────────────────────────────────────
-  function readStoredSession() {
-    try {
-      const raw = window.localStorage.getItem(SESSION_STORAGE_KEY);
+      const raw = localStorage.getItem(SESSION_KEY);
       if (!raw) return null;
-      const parsed = JSON.parse(raw);
-      if (parsed && parsed.currentSession) return parsed.currentSession;
-      if (parsed && parsed.access_token && parsed.user) return parsed;
+      const p = JSON.parse(raw);
+      const s = p && (p.currentSession || p);
+      if (s && s.access_token && s.user) return s;
     } catch (e) {}
     return null;
   }
 
+  function setCompat(on) {
+    try {
+      if (on) localStorage.setItem(COMPAT_KEY, '1');
+      else localStorage.removeItem(COMPAT_KEY);
+    } catch (e) {}
+  }
+
+  function currentPath() {
+    return window.location.pathname.replace(/\/+$/, '') || '/';
+  }
+
+  // ─── SUPABASE CLIENT (with cookie fallback for Edge/Safari) ───────────────
   let _client = null;
   function getClient() {
     if (_client) return _client;
-    if (!window.supabase || typeof window.supabase.createClient !== 'function') return null;
+    if (!window.supabase || !window.supabase.createClient) return null;
     _client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+        storage: {
+          getItem(key) {
+            try { return localStorage.getItem(key); } catch(e) {}
+            const m = document.cookie.match(new RegExp('(?:^|; )' + key.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '=([^;]*)'));
+            return m ? decodeURIComponent(m[1]) : null;
+          },
+          setItem(key, value) {
+            try { localStorage.setItem(key, value); return; } catch(e) {}
+            document.cookie = key + '=' + encodeURIComponent(value) + ';path=/;max-age=31536000;SameSite=Lax';
+          },
+          removeItem(key) {
+            try { localStorage.removeItem(key); } catch(e) {}
+            document.cookie = key + '=;path=/;max-age=0';
+          }
+        }
+      }
     });
     return _client;
   }
 
-  // ─── SYNC XHR HELPER (used before React renders) ──────────────────────────
+  // ─── SYNC REST FETCH (runs before React mounts) ───────────────────────────
   function syncGet(path, token) {
-    if (!token) return null;
     try {
       const xhr = new XMLHttpRequest();
-      xhr.open('GET', SUPABASE_URL + '/rest/v1/' + path, false); // synchronous
+      xhr.open('GET', SUPABASE_URL + '/rest/v1/' + path, false);
       xhr.setRequestHeader('apikey', SUPABASE_ANON_KEY);
       xhr.setRequestHeader('Authorization', 'Bearer ' + token);
       xhr.send();
-      if (xhr.status >= 200 && xhr.status < 300 && xhr.responseText) {
-        return JSON.parse(xhr.responseText);
-      }
+      if (xhr.status >= 200 && xhr.status < 300) return JSON.parse(xhr.responseText);
     } catch (e) {}
     return null;
   }
 
-  // ─── BUILD FULL USER OBJECT (FIX: now maps ALL fields the React app expects) ─
-  function buildUserObject(supabaseUser, walletRow, existingUser) {
-    const meta = (supabaseUser && supabaseUser.user_metadata) || {};
-    const base = existingUser || {};
+  // ─── BUILD USER OBJECT (matches exact shape from dashboard.html data-page) ─
+  function buildUser(supaUser, profile, wallet) {
+    const meta = supaUser.user_metadata || {};
+    const p    = profile || {};
+    const w    = wallet  || {};
 
-    // Derive display name from metadata or email
-    const displayName = meta.full_name || meta.name || meta.username ||
-      (supabaseUser.email ? supabaseUser.email.split('@')[0] : 'User');
+    const displayName = p.full_name || meta.full_name || meta.name ||
+      (supaUser.email ? supaUser.email.split('@')[0] : 'User');
 
-    return Object.assign({}, base, {
-      // Core identity — from real Supabase session
-      id:                     supabaseUser.id,
-      name:                   displayName,
-      email:                  supabaseUser.email || base.email || '',
-      username:               meta.username || displayName,
-      full_name:              meta.full_name || displayName,
-      whatsapp_number:        meta.whatsapp_number || base.whatsapp_number || null,
-      referrer_username:      meta.referrer_username || base.referrer_username || null,
-      bank_name:              meta.bank_name || base.bank_name || null,
-      bank_account_number:    meta.bank_account_number || base.bank_account_number || null,
-
-      // Wallet — from Supabase wallets table
-      point_main_balance:    (walletRow && typeof walletRow.main_points === 'number') ? walletRow.main_points : 0,
-      point_holding_balance: (walletRow && typeof walletRow.holding_points === 'number') ? walletRow.holding_points : 0,
-
-      // FIX: Zero out mock balances from static HTML — real balances come from wallet table
-      opay_balance:   0,
-      kuda_balance:   0,
-      palmpay_balance: 0,
-
-      // Platform config — keep from static template (these are platform-level settings)
-      naira_per_point:         base.naira_per_point || 1,
-      payment_duration_minutes: base.payment_duration_minutes || 15,
-      min_point_sales:         base.min_point_sales || 100,
-
-      // Account flags
-      made_first_deposit: base.made_first_deposit || 'no',
-      last_seen:          base.last_seen || null,
-      listing:            base.listing || 'off',
-      vendor:             meta.vendor || base.vendor || 'no',
-      vendor_terms:       base.vendor_terms || null,
-      role:               meta.role || base.role || 'user',
-      manager:            meta.manager || base.manager || 'no',
-      status:             base.status || 'active',
-      email_verified_at:  supabaseUser.email_confirmed_at || base.email_verified_at || null,
-      pass_link_active:   base.pass_link_active || 'yes',
-
-      // Timestamps from Supabase
-      created_at: supabaseUser.created_at || base.created_at || new Date().toISOString(),
-      updated_at: supabaseUser.updated_at || base.updated_at || new Date().toISOString(),
-
-      // Payment links — keep from template (null by default)
-      payment_type:          base.payment_type || 'bank-transfer',
-      payment_link:          base.payment_link || null,
-      payment_link_1000:     base.payment_link_1000 || null,
-      payment_link_1500:     base.payment_link_1500 || null,
-      payment_link_2000:     base.payment_link_2000 || null,
-      payment_link_5000:     base.payment_link_5000 || null,
-      payment_link_10000:    base.payment_link_10000 || null,
-      payment_link_15000:    base.payment_link_15000 || null,
-      payment_link_25000:    base.payment_link_25000 || null,
-      payment_link_50000:    base.payment_link_50000 || null,
-      payment_link_100000:   base.payment_link_100000 || null,
-    });
+    return {
+      id:                      supaUser.id,
+      name:                    displayName,
+      email:                   supaUser.email || p.email || '',
+      username:                p.username || meta.username || displayName,
+      referrer_username:       p.referrer_username || meta.referrer_username || null,
+      whatsapp_number:         p.whatsapp_number   || meta.whatsapp_number   || null,
+      bank_name:               p.bank_name         || null,
+      bank_account_number:     p.bank_account_number || null,
+      point_main_balance:      typeof w.main_points    === 'number' ? w.main_points    : 0,
+      point_holding_balance:   typeof w.holding_points === 'number' ? w.holding_points : 0,
+      opay_balance:            typeof w.opay_balance   === 'number' ? w.opay_balance   : 0,
+      kuda_balance:            typeof w.kuda_balance   === 'number' ? w.kuda_balance   : 0,
+      naira_per_point:         1,
+      payment_duration_minutes: 15,
+      min_point_sales:         100,
+      made_first_deposit:      p.made_first_deposit || 'no',
+      last_seen:               p.last_seen          || null,
+      listing:                 p.listing            || 'off',
+      vendor:                  p.vendor || meta.vendor   || 'no',
+      vendor_terms:            p.vendor_terms       || null,
+      role:                    p.role   || meta.role     || 'user',
+      manager:                 p.manager|| meta.manager  || 'no',
+      status:                  p.status             || 'active',
+      email_verified_at:       supaUser.email_confirmed_at || p.email_verified_at || null,
+      pass_link_active:        p.pass_link_active   || 'yes',
+      created_at:              supaUser.created_at  || p.created_at || new Date().toISOString(),
+      updated_at:              supaUser.updated_at  || p.updated_at || new Date().toISOString(),
+      payment_type:            p.payment_type       || 'bank-transfer',
+      payment_link:            p.payment_link       || null,
+      payment_link_1000:       p.payment_link_1000  || null,
+      payment_link_1500:       p.payment_link_1500  || null,
+      payment_link_2000:       p.payment_link_2000  || null,
+      payment_link_5000:       p.payment_link_5000  || null,
+      payment_link_10000:      p.payment_link_10000 || null,
+      payment_link_15000:      p.payment_link_15000 || null,
+      payment_link_25000:      p.payment_link_25000 || null,
+      payment_link_50000:      p.payment_link_50000 || null,
+      payment_link_100000:     p.payment_link_100000|| null,
+    };
   }
 
-  // ─── PATCH data-page WITH REAL SUPABASE DATA ──────────────────────────────
-  // FIX: Removes SMTP password and other sensitive fields from the page data
-  function scrubSensitiveData(page) {
-    try {
-      if (page.props && page.props.platform) {
-        // Remove exposed mail credentials
-        delete page.props.platform.flash_mail_config_host;
-        delete page.props.platform.flash_mail_config_port;
-        delete page.props.platform.flash_mail_config_username;
-        delete page.props.platform.flash_mail_config_password;
-        delete page.props.platform.flash_mail_config_encryption;
-      }
-    } catch (e) {}
-    return page;
-  }
-
-  function patchPageData() {
+  // ─── PATCH data-page BEFORE REACT RENDERS ─────────────────────────────────
+  function patchPage() {
     const app = document.getElementById('app');
     if (!app) return;
     const raw = app.getAttribute('data-page');
@@ -228,447 +134,215 @@
 
     let page;
     try {
-      page = JSON.parse(raw);
-    } catch (e) {
-      return;
-    }
+      // data-page uses HTML entities for quotes
+      page = JSON.parse(raw.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&amp;/g, '&'));
+    } catch (e) { return; }
 
     if (!page.props) page.props = {};
     if (!page.props.auth) page.props.auth = {};
-    if (!page.props.errors) page.props.errors = {};
 
-    const session = readStoredSession();
-    const path    = currentPath();
-    const isAuthed = !!(session && session.user && session.access_token);
-
-    setCompatSession(isAuthed);
-
-    // Auth guard
-    if (isProtectedPath(path) && !isAuthed) {
-      window.location.replace('/login.html');
-      return;
-    }
-    if (AUTH_PATHS.has(path) && isAuthed) {
-      window.location.replace('/dashboard.html');
-      return;
+    // Strip exposed SMTP credentials
+    if (page.props.platform) {
+      ['flash_mail_config_host','flash_mail_config_port',
+       'flash_mail_config_username','flash_mail_config_password',
+       'flash_mail_config_encryption'].forEach(k => delete page.props.platform[k]);
     }
 
-    if (!isAuthed) {
+    const session  = readSession();
+    const path     = currentPath();
+    const authed   = !!(session && session.user && session.access_token);
+
+    setCompat(authed);
+
+    // Auth guards
+    const PROTECTED = ['/dashboard','/services','/transactions','/vendors',
+                       '/profile','/orders','/buy-point','/referral'];
+    const isProtected = PROTECTED.some(r => path.startsWith(r));
+    const isAuthPage  = /\/(login|register)(\.html)?$/.test(path);
+
+    if (isProtected && !authed) { window.location.replace('/login.html'); return; }
+    if (isAuthPage  && authed)  { window.location.replace('/dashboard.html'); return; }
+
+    if (!authed) {
+      // Not logged in — clear mock user so React shows logged-out navbar
       page.props.auth.user = null;
-      page = scrubSensitiveData(page);
-      app.setAttribute('data-page', htmlEncode(JSON.stringify(page)));
+      page.props.auth.referred_users_count = null;
+      writePage(app, page);
       return;
     }
 
-    // Fetch real profile from profiles table
-    let profileRow = null;
-    const profileData = syncGet(
-      'profiles?select=*&id=eq.' + encodeURIComponent(session.user.id),
-      session.access_token
-    );
-    if (Array.isArray(profileData) && profileData.length) profileRow = profileData[0];
+    // Logged in — fetch real data
+    const uid   = session.user.id;
+    const token = session.access_token;
 
-    // Fetch real wallet balance
-    let walletRow = null;
-    const walletData = syncGet(
-      'wallets?select=main_points,holding_points&user_id=eq.' + encodeURIComponent(session.user.id),
-      session.access_token
-    );
-    if (Array.isArray(walletData) && walletData.length) walletRow = walletData[0];
+    const profileArr = syncGet('profiles?select=*&id=eq.' + uid, token);
+    const profile    = Array.isArray(profileArr) && profileArr[0] ? profileArr[0] : null;
 
-    // Patch auth.user with REAL data from Supabase
-    const existingUser = Object.assign({}, page.props.auth.user || {}, profileRow || {});
-    page.props.auth.user = buildUserObject(session.user, walletRow, existingUser);
+    const walletArr  = syncGet('wallets?select=main_points,holding_points,opay_balance,kuda_balance&user_id=eq.' + uid, token);
+    const wallet     = Array.isArray(walletArr) && walletArr[0] ? walletArr[0] : null;
 
-    // Fetch page-specific data
-    const component = page.component || '';
+    page.props.auth.user = buildUser(session.user, profile, wallet);
+    page.props.auth.referred_users_count = null;
 
-    if (component === 'Transactions') {
-      const tx = syncGet('transactions?select=*&order=created_at.desc&limit=100', session.access_token);
+    // Extra data per page component
+    const comp = page.component || '';
+    if (comp === 'Dashboard') {
+      const ledger = syncGet('points_ledger?select=points,direction,created_at&user_id=eq.' + uid + '&order=created_at.desc&limit=5', token);
+      if (Array.isArray(ledger)) page.props.recent_ledger = ledger;
+    }
+    if (comp === 'Transactions') {
+      const tx = syncGet('transactions?select=*&user_id=eq.' + uid + '&order=created_at.desc&limit=100', token);
       if (Array.isArray(tx)) page.props.transactions = tx;
     }
-
-    if (component === 'Vendors') {
-      const vendors = syncGet('vendors?select=*&order=created_at.desc', session.access_token);
+    if (comp === 'Vendors') {
+      const vendors = syncGet('vendors?select=*&order=created_at.desc', token);
       if (Array.isArray(vendors)) page.props.vendors = vendors;
     }
 
-    if (component === 'Dashboard') {
-      const ledger = syncGet(
-        'points_ledger?select=points,direction,created_at&user_id=eq.' + encodeURIComponent(session.user.id) + '&order=created_at.desc&limit=5',
-        session.access_token
-      );
-      if (Array.isArray(ledger)) page.props.recent_ledger = ledger;
-    }
-
-    // Remove sensitive platform fields
-    page = scrubSensitiveData(page);
-
-    app.setAttribute('data-page', htmlEncode(JSON.stringify(page)));
+    writePage(app, page);
   }
 
-  // ─── ROUTE NAVIGATION ──────────────────────────────────────────────────────
-  function resolveRoute(rawPath) {
-    const p = normalizePath(rawPath);
-
-    // Already an .html file — navigate as-is
-    if (p.toLowerCase().endsWith('.html')) return null;
-
-    // Direct map lookup
-    if (ROUTE_MAP.has(p)) return ROUTE_MAP.get(p);
-
-    // Prefix fallbacks
-    if (p.startsWith('/transactions')) return '/transactions.html';
-    if (p.startsWith('/vendors'))      return '/vendors.html';
-    if (p.startsWith('/profile'))      return '/profile.html';
-    if (p.startsWith('/orders'))       return '/orders.html';
-    if (p.startsWith('/buy-point'))    return '/buy-point.html';
-    if (p.startsWith('/dashboard'))    return '/dashboard.html';
-    if (p.startsWith('/help'))         return '/help.html';
-    if (p.startsWith('/contact'))      return '/contact.html';
-
-    // Service sub-routes: map /services/xxx to /services/xxx.html
-    if (p.startsWith('/services/')) return p + '.html';
-
-    // Order sub-routes
-    if (p.startsWith('/order/')) return p + '.html';
-
-    return null;
+  function writePage(app, page) {
+    app.setAttribute('data-page', JSON.stringify(page).replace(/&/g,'&amp;').replace(/"/g,'&quot;'));
   }
 
-  function navigateTo(urlLike) {
-    try {
-      const url = new URL(
-        typeof urlLike === 'string' ? urlLike : (urlLike && (urlLike.href || urlLike.url || String(urlLike))),
-        window.location.href
-      );
-
-      // Only handle internal URLs
-      const isInternal = url.origin === window.location.origin ||
-        /(^|\.)slipcraft\.net$/i.test(url.hostname);
-      if (!isInternal) return null;
-
-      const mapped = resolveRoute(url.pathname);
-      if (!mapped) return null;
-
-      return mapped + (url.search || '') + (url.hash || '');
-    } catch (e) {
-      return null;
-    }
+  // ─── TOAST ─────────────────────────────────────────────────────────────────
+  function toast(msg, isError) {
+    const old = document.getElementById('sc-toast');
+    if (old) old.remove();
+    const el = document.createElement('div');
+    el.id = 'sc-toast';
+    el.textContent = msg;
+    el.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:999999;' +
+      'padding:12px 24px;border-radius:12px;font:600 14px/1.4 sans-serif;color:#fff;' +
+      'background:' + (isError ? '#dc2626' : '#16a34a') + ';box-shadow:0 8px 32px rgba(0,0,0,.3);transition:opacity .3s';
+    document.body.appendChild(el);
+    setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.remove(), 350); }, 4000);
   }
 
-  // ─── AUTH: login / register / logout ──────────────────────────────────────
-  function showToast(message, isError) {
-    const existing = document.getElementById('sc-toast');
-    if (existing) existing.remove();
-
-    const box = document.createElement('div');
-    box.id = 'sc-toast';
-    box.textContent = message;
-    box.style.cssText = [
-      'position:fixed', 'top:20px', 'left:50%', 'transform:translateX(-50%)',
-      'z-index:999999', 'max-width:90vw', 'padding:12px 20px', 'border-radius:12px',
-      'font:600 14px/1.5 sans-serif', 'color:#fff',
-      'background:' + (isError ? '#dc2626' : '#16a34a'),
-      'box-shadow:0 8px 24px rgba(0,0,0,.25)', 'transition:opacity .3s'
-    ].join(';');
-    document.body.appendChild(box);
-    setTimeout(() => {
-      box.style.opacity = '0';
-      setTimeout(() => box.remove(), 300);
-    }, 4500);
-  }
-
-  function formToObject(form) {
-    const obj = {};
-    new FormData(form).forEach((v, k) => { if (!(k in obj)) obj[k] = v; });
-    return obj;
-  }
-
-  async function handleAuth(mode, payload) {
+  // ─── AUTH HANDLER ─────────────────────────────────────────────────────────
+  async function doAuth(mode, fields) {
     const client = getClient();
-    if (!client) return { ok: false, message: 'Supabase client not loaded.' };
+    if (!client) return { ok: false, msg: 'Supabase not loaded. Please refresh.' };
 
     if (mode === 'login') {
-      const { data, error } = await client.auth.signInWithPassword({
-        email: String(payload.email || '').trim(),
-        password: String(payload.password || '')
+      const { error } = await client.auth.signInWithPassword({
+        email: (fields.email || '').trim(),
+        password: fields.password || ''
       });
-      if (error) return { ok: false, message: error.message };
-      setCompatSession(true);
-      return { ok: true, session: data.session, user: data.user };
+      if (error) return { ok: false, msg: error.message };
+      setCompat(true);
+      return { ok: true };
     }
 
     // Register
     const { data, error } = await client.auth.signUp({
-      email: String(payload.email || '').trim(),
-      password: String(payload.password || ''),
+      email: (fields.email || '').trim(),
+      password: fields.password || '',
       options: {
         data: {
-          full_name:          payload.full_name || payload.name || '',
-          username:           payload.username || '',
-          referrer_username:  payload.referrer_username || '',
-          whatsapp_number:    payload.whatsapp_number || ''
+          full_name:         fields.full_name || fields.name || '',
+          username:          fields.username  || '',
+          whatsapp_number:   fields.whatsapp_number  || '',
+          referrer_username: fields.referrer_username || ''
         }
       }
     });
-    if (error) return { ok: false, message: error.message };
+    if (error) return { ok: false, msg: error.message };
 
-    // Auto-login after signup (requires email confirmation disabled in Supabase)
-    if (data.session) {
-      setCompatSession(true);
-      return { ok: true, session: data.session, user: data.user };
-    }
-
-    // Try immediate sign-in if session wasn't returned
-    const { data: loginData, error: loginError } = await client.auth.signInWithPassword({
-      email: String(payload.email || '').trim(),
-      password: String(payload.password || '')
-    });
-    if (loginError) return {
-      ok: false,
-      message: 'Account created. Please log in. (If login fails, disable email confirmation in Supabase Auth settings.)'
-    };
-    setCompatSession(true);
-    return { ok: true, session: loginData.session, user: loginData.user };
+    // If email confirm is disabled, session is returned immediately
+    if (data && data.session) { setCompat(true); return { ok: true, autoLogin: true }; }
+    return { ok: true, autoLogin: false };
   }
 
-  // ─── FETCH INTERCEPTOR ─────────────────────────────────────────────────────
-  // FIX: Returns null for unhandled routes so real fetch is called (prevents dead API calls)
-  function parseBody(body, headers) {
-    if (!body) return {};
-    const ct = (headers && (headers['content-type'] || headers['Content-Type'])) || '';
-    if (body instanceof FormData) { const o={}; body.forEach((v,k)=>{if(!(k in o))o[k]=v;}); return o; }
-    if (body instanceof URLSearchParams) { const o={}; body.forEach((v,k)=>{if(!(k in o))o[k]=v;}); return o; }
-    if (typeof body === 'string') {
-      if (ct.includes('application/json')) { try { return JSON.parse(body); } catch(e){} }
-      const o={}; new URLSearchParams(body).forEach((v,k)=>{if(!(k in o))o[k]=v;}); return o;
-    }
-    return typeof body === 'object' ? body : {};
-  }
-
-  function makeJson(status, payload) {
-    return new Response(JSON.stringify(payload), {
-      status,
-      headers: { 'Content-Type': 'application/json; charset=utf-8' }
-    });
-  }
-
-  async function interceptFetch(input, init) {
-    const href = typeof input === 'string' ? input : (input && input.url) || '';
-    const url  = new URL(href, window.location.href);
-    const path = normalizePath(url.pathname);
-    const method = ((init && init.method) || (input && input.method) || 'GET').toUpperCase();
-    const headers = (() => {
-      const h = (init && init.headers) || (input && input.headers);
-      if (!h) return {};
-      if (h instanceof Headers) { const o={}; h.forEach((v,k)=>{o[k]=v;}); return o; }
-      return Object.assign({}, h);
-    })();
-    const payload = parseBody(init && init.body, headers);
-
-    // Login / Register POST
-    if ((path === '/login' || path === '/register') && method === 'POST') {
-      const result = await handleAuth(path === '/login' ? 'login' : 'register', payload);
-      if (!result.ok) return makeJson(422, { errors: { email: result.message } });
-      window.location.href = '/dashboard.html';
-      return new Response('', { status: 303, headers: { Location: '/dashboard.html' } });
-    }
-
-    // Logout POST
-    if (path === '/logout' && method === 'POST') {
-      const client = getClient();
-      if (client) await client.auth.signOut();
-      setCompatSession(false);
-      window.location.href = '/index.html';
-      return new Response('', { status: 303, headers: { Location: '/index.html' } });
-    }
-
-    // API: GET vendors
-    if (path === '/api/vendors' && method === 'GET') {
-      const client = getClient();
-      if (!client) return makeJson(500, { error: 'Client not ready' });
-      const { data, error } = await client.from('vendors').select('*').order('created_at', { ascending: false });
-      if (error) return makeJson(500, { error: error.message });
-      return makeJson(200, { data: data || [] });
-    }
-
-    // API: POST vendor
-    if (path === '/api/vendors' && method === 'POST') {
-      const client = getClient();
-      if (!client) return makeJson(500, { error: 'Client not ready' });
-      const { data, error } = await client.from('vendors')
-        .insert({ display_name: payload.display_name || 'Vendor', application_fee_ngn: 0, status: 'pending' })
-        .select().single();
-      if (error) return makeJson(500, { error: error.message });
-      return makeJson(201, { data });
-    }
-
-    // API: GET transactions
-    if (path === '/api/transactions' && method === 'GET') {
-      const client = getClient();
-      if (!client) return makeJson(500, { error: 'Client not ready' });
-      const { data, error } = await client.from('transactions').select('*').order('created_at', { ascending: false });
-      if (error) return makeJson(500, { error: error.message });
-      return makeJson(200, { data: data || [] });
-    }
-
-    // API: transfer points
-    if (path === '/api/points/transfer' && method === 'POST') {
-      const client = getClient();
-      if (!client) return makeJson(500, { error: 'Client not ready' });
-      const { error } = await client.rpc('transfer_points', {
-        to_user: payload.to_user,
-        points:  Number(payload.points || 0),
-        reason:  payload.reason || null
-      });
-      if (error) return makeJson(500, { error: error.message });
-      return makeJson(200, { ok: true });
-    }
-
-    // Unhandled — let real fetch proceed
-    return null;
-  }
-
-  function installFetchInterceptor() {
-    if (typeof window.fetch !== 'function') return;
-    const orig = window.fetch.bind(window);
-    window.fetch = function (input, init) {
-      return interceptFetch(input, init).then(res => res || orig(input, init));
-    };
-  }
-
-  // ─── FORM INTERCEPTOR (login/register forms) ───────────────────────────────
-  function installFormInterceptor() {
+  // ─── FORM INTERCEPTOR ─────────────────────────────────────────────────────
+  function installForms() {
     document.addEventListener('submit', async function (e) {
       const form = e.target;
       if (!form || form.tagName !== 'FORM') return;
+      if (!form.querySelector('input[type=email], input[name=email]')) return;
+      if (!form.querySelector('input[type=password], input[name=password]')) return;
 
-      const hasPassword = !!form.querySelector('input[type="password"], input[name="password"]');
-      const hasEmail    = !!form.querySelector('input[type="email"], input[name="email"]');
-      if (!hasPassword || !hasEmail) return;
-
-      const p    = currentPath();
-      const act  = normalizePath(form.getAttribute('action') || p);
-      const isLogin    = act === '/login' || act === '/login.html' || p === '/login' || p === '/login.html';
-      const isRegister = act === '/register' || act === '/register.html' || p === '/register' || p === '/register.html';
+      const path   = currentPath();
+      const action = (form.getAttribute('action') || '').replace(/\/+$/, '');
+      const isLogin    = path.includes('login')    || action.includes('login');
+      const isRegister = path.includes('register') || action.includes('register');
       if (!isLogin && !isRegister) return;
 
       e.preventDefault();
-      const btn = form.querySelector('button[type="submit"], input[type="submit"]');
-      if (btn) btn.disabled = true;
+      e.stopImmediatePropagation();
 
-      const result = await handleAuth(isLogin ? 'login' : 'register', formToObject(form));
-      if (btn) btn.disabled = false;
+      const btn = form.querySelector('button[type=submit], input[type=submit]');
+      const origText = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = isLogin ? 'Signing in…' : 'Creating account…'; }
 
-      if (!result.ok) { showToast(result.message, true); return; }
-      showToast(isLogin ? 'Login successful!' : 'Account created!', false);
+      const fields = {};
+      new FormData(form).forEach((v, k) => { if (!(k in fields)) fields[k] = v; });
+
+      const result = await doAuth(isLogin ? 'login' : 'register', fields);
+
+      if (btn) { btn.disabled = false; btn.textContent = origText; }
+
+      if (!result.ok) { toast(result.msg, true); return; }
+
+      if (isRegister) {
+        if (result.autoLogin) {
+          // Email confirm disabled — logged in automatically, go straight to dashboard
+          toast('Account created! Welcome!', false);
+          setTimeout(() => { window.location.href = '/dashboard.html'; }, 800);
+        } else {
+          // Email confirm enabled — send to login with message
+          toast('Account created! Please sign in.', false);
+          setTimeout(() => { window.location.href = '/login.html'; }, 1500);
+        }
+        return;
+      }
+
+      toast('Login successful!', false);
       setTimeout(() => { window.location.href = '/dashboard.html'; }, 600);
     }, true);
   }
 
   // ─── LOGOUT INTERCEPTOR ────────────────────────────────────────────────────
-  function installLogoutInterceptor() {
+  function installLogout() {
     document.addEventListener('click', async function (e) {
       let el = e.target;
-      while (el && el !== document.documentElement) {
-        if (el.tagName === 'A' || el.tagName === 'BUTTON') break;
+      while (el && el.tagName !== 'BODY') {
+        const href = (el.getAttribute && el.getAttribute('href')) || '';
+        const txt  = (el.textContent || '').trim().toLowerCase();
+        if (href.includes('logout') || el.getAttribute('data-logout') === 'true' ||
+            txt === 'logout' || txt === 'sign out' || txt === 'log out') {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          const c = getClient();
+          if (c) await c.auth.signOut();
+          setCompat(false);
+          window.location.href = '/index.html';
+          return;
+        }
         el = el.parentElement;
       }
-      if (!el) return;
-
-      const href = el.getAttribute && el.getAttribute('href');
-      const formAction = el.form && el.form.getAttribute && el.form.getAttribute('action');
-      const path = normalizePath(href || formAction || '');
-      const text = (el.textContent || '').trim().toLowerCase();
-      const isLogout = path === '/logout' ||
-        el.getAttribute('data-logout') === 'true' ||
-        text === 'logout' || text === 'sign out' || text === 'log out';
-      if (!isLogout) return;
-
-      e.preventDefault();
-      const client = getClient();
-      if (client) await client.auth.signOut();
-      setCompatSession(false);
-      window.location.href = '/index.html';
     }, true);
   }
 
-  // ─── CLICK INTERCEPTOR (SPA navigation) ────────────────────────────────────
-  // Runs in CAPTURE phase so it fires BEFORE Inertia's click handler.
-  // For links we can resolve → stopImmediatePropagation + full page navigate.
-  // For links we can't resolve → do nothing (let Inertia/browser handle).
-  function installLinkInterceptor() {
-    document.addEventListener('click', function (e) {
-      if (e.defaultPrevented || e.button !== 0) return;
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-
-      let el = e.target;
-      while (el && el !== document.documentElement) {
-        if (el.tagName === 'A') break;
-        el = el.parentElement;
-      }
-      if (!el || el.tagName !== 'A') return;
-
-      const rawHref = el.getAttribute('href');
-      if (!rawHref || rawHref.startsWith('#')) return;
-      if (/^(mailto:|tel:|javascript:)/i.test(rawHref)) return;
-      if (el.hasAttribute('download')) return;
-      if (el.target && el.target !== '_self') return;
-
-      const dest = navigateTo(el.href);
-      if (!dest) return; // Not our route — let Inertia handle it normally
-
-      // We matched a route: block Inertia from seeing this click entirely
-      e.preventDefault();
-      e.stopImmediatePropagation(); // prevents Inertia overlay rendering
-      window.location.assign(dest); // full page navigation to .html file
-    }, true); // ← CAPTURE phase: runs before Inertia's handlers
-  }
-
-  // ─── INERTIA:BEFORE INTERCEPTOR ────────────────────────────────────────────
-  function installInertiaInterceptor() {
-    document.addEventListener('inertia:before', function (e) {
-      try {
-        if (!e || typeof e.preventDefault !== 'function') return;
-        const detail = e.detail || {};
-        const visit  = detail.visit || {};
-        const method = String(visit.method || detail.method || 'get').toLowerCase();
-        if (method !== 'get' && method !== 'head') return;
-
-        const dest = navigateTo(visit.url);
-        if (!dest) return;
-
-        e.preventDefault();
-        window.location.assign(dest);
-      } catch (_) {}
-    }, true);
-  }
-
-  // ─── AUTH STATE SYNC ───────────────────────────────────────────────────────
-  function installAuthStateSync() {
+  // ─── AUTH STATE WATCHER ────────────────────────────────────────────────────
+  function installAuthWatch() {
     const client = getClient();
     if (!client) return;
-    client.auth.onAuthStateChange(function (_event, session) {
-      setCompatSession(!!(session && session.user));
-      const p = currentPath();
-      if (!session && isProtectedPath(p)) {
-        window.location.replace('/login.html');
-        return;
-      }
-      if (session && AUTH_PATHS.has(p)) {
-        window.location.replace('/dashboard.html');
+    client.auth.onAuthStateChange((_event, session) => {
+      setCompat(!!(session && session.user));
+      if (!session) {
+        const p = currentPath();
+        const PROTECTED = ['/dashboard','/services','/transactions','/vendors','/profile','/orders'];
+        if (PROTECTED.some(r => p.startsWith(r))) window.location.replace('/login.html');
       }
     });
   }
 
   // ─── INIT ──────────────────────────────────────────────────────────────────
-  patchPageData();
-  installFetchInterceptor();
-  installFormInterceptor();
-  installLogoutInterceptor();
-  installLinkInterceptor();
-  installInertiaInterceptor();
-  installAuthStateSync();
+  patchPage();        // Runs sync before React — replaces fake data with real data
+  installForms();     // Handles login/register form submit
+  installLogout();    // Handles logout clicks
+  installAuthWatch(); // Watches for session expiry
 
 })();
