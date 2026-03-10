@@ -1,0 +1,1563 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title inertia>Slipcraft</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Scripts -->
+    <script type="text/javascript">
+        const Ziggy = {
+            "url": "",
+            "port": null,
+            "defaults": {},
+            "routes": {
+                "sanctum.csrf-cookie": {
+                    "uri": "sanctum\/csrf-cookie",
+                    "methods": ["GET", "HEAD"]
+                },
+                "now_payments_ipn": {
+                    "uri": "api\/buy-point\/now_payments_ipn",
+                    "methods": ["POST"]
+                },
+                "banks.ng": {
+                    "uri": "api\/banks\/ng",
+                    "methods": ["GET", "HEAD"]
+                },
+                "accounts.resolve": {
+                    "uri": "api\/accounts\/resolve",
+                    "methods": ["POST"]
+                },
+                "support-page.show": {
+                    "uri": "api\/support-page\/{slug}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["slug"]
+                },
+                "cron.orders.cancel": {
+                    "uri": "api\/cron\/order\/cancel",
+                    "methods": ["GET", "HEAD"]
+                },
+                "home": {
+                    "uri": "\/",
+                    "methods": ["GET", "HEAD"]
+                },
+                "help": {
+                    "uri": "help.html",
+                    "methods": ["GET", "HEAD"]
+                },
+                "contact": {
+                    "uri": "contact.html",
+                    "methods": ["GET", "HEAD"]
+                },
+                "privacy-policy": {
+                    "uri": "privacy-policy",
+                    "methods": ["GET", "HEAD"]
+                },
+                "about": {
+                    "uri": "about.html",
+                    "methods": ["GET", "HEAD"]
+                },
+                "dashboard": {
+                    "uri": "dashboard.html",
+                    "methods": ["GET", "HEAD"]
+                },
+                "referral": {
+                    "uri": "referral",
+                    "methods": ["GET", "HEAD"]
+                },
+                "admin.dashboard": {
+                    "uri": "admin",
+                    "methods": ["GET", "HEAD"]
+                },
+                "admin.service-analytics": {
+                    "uri": "admin\/service-analytics",
+                    "methods": ["GET", "HEAD"]
+                },
+                "register": {
+                    "uri": "register.html",
+                    "methods": ["GET", "HEAD"]
+                },
+                "login": {
+                    "uri": "login.html",
+                    "methods": ["GET", "HEAD"]
+                },
+                "password.request": {
+                    "uri": "forgot-password",
+                    "methods": ["GET", "HEAD"]
+                },
+                "password.email": {
+                    "uri": "forgot-password",
+                    "methods": ["POST"]
+                },
+                "password.reset": {
+                    "uri": "reset-password\/{token}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["token"]
+                },
+                "password.store": {
+                    "uri": "reset-password",
+                    "methods": ["POST"]
+                },
+                "verification.notice": {
+                    "uri": "verify-email",
+                    "methods": ["GET", "HEAD"]
+                },
+                "verification.verify": {
+                    "uri": "verify-email\/{id}\/{hash}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["id", "hash"]
+                },
+                "verification.send": {
+                    "uri": "email\/verification-notification",
+                    "methods": ["POST"]
+                },
+                "password.confirm": {
+                    "uri": "confirm-password",
+                    "methods": ["GET", "HEAD"]
+                },
+                "password.update": {
+                    "uri": "password",
+                    "methods": ["PUT"]
+                },
+                "logout": {
+                    "uri": "logout",
+                    "methods": ["POST"]
+                },
+                "profile.edit": {
+                    "uri": "profile.html",
+                    "methods": ["GET", "HEAD"]
+                },
+                "profile.update": {
+                    "uri": "profile.html",
+                    "methods": ["PATCH"]
+                },
+                "profile.destroy": {
+                    "uri": "profile.html",
+                    "methods": ["DELETE"]
+                },
+                "admin.users": {
+                    "uri": "admin\/users",
+                    "methods": ["GET", "HEAD"]
+                },
+                "admin.user.show": {
+                    "uri": "admin\/users\/{id}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["id"]
+                },
+                "admin.user.find": {
+                    "uri": "admin\/user\/find",
+                    "methods": ["POST"]
+                },
+                "admin.user.update": {
+                    "uri": "admin\/user\/update",
+                    "methods": ["POST"]
+                },
+                "admin.user.make_vendor": {
+                    "uri": "admin\/user\/make-vendor",
+                    "methods": ["POST"]
+                },
+                "admin.user.revoke_vendor": {
+                    "uri": "admin\/user\/revoke-vendor",
+                    "methods": ["POST"]
+                },
+                "admin.user.destroy": {
+                    "uri": "admin\/user\/destroy",
+                    "methods": ["DELETE"]
+                },
+                "admin.user.reset_password": {
+                    "uri": "admin\/user\/reset-password",
+                    "methods": ["POST"]
+                },
+                "transactions": {
+                    "uri": "transactions.html",
+                    "methods": ["GET", "HEAD"]
+                },
+                "admin.transactions": {
+                    "uri": "admin\/transactions",
+                    "methods": ["GET", "HEAD"]
+                },
+                "admin.transactions.user": {
+                    "uri": "admin\/transactions\/user\/{id}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["id"]
+                },
+                "transaction.show": {
+                    "uri": "transactions\/{id}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["id"]
+                },
+                "transaction.find": {
+                    "uri": "transactions\/find",
+                    "methods": ["POST"]
+                },
+                "transaction.destroy": {
+                    "uri": "transaction\/destroy",
+                    "methods": ["DELETE"]
+                },
+                "buy_point": {
+                    "uri": "buy-point.html",
+                    "methods": ["GET", "HEAD"]
+                },
+                "buy-point.automatic-crypto": {
+                    "uri": "buy-point\/automatic-crypto",
+                    "methods": ["POST"]
+                },
+                "orders": {
+                    "uri": "orders",
+                    "methods": ["GET", "HEAD"]
+                },
+                "admin.orders": {
+                    "uri": "admin\/orders",
+                    "methods": ["GET", "HEAD"]
+                },
+                "order.show": {
+                    "uri": "orders\/{id}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["id"]
+                },
+                "order.find": {
+                    "uri": "order\/find",
+                    "methods": ["POST"]
+                },
+                "order.store": {
+                    "uri": "order\/store",
+                    "methods": ["POST"]
+                },
+                "order.destroy": {
+                    "uri": "order\/delete",
+                    "methods": ["POST"]
+                },
+                "order.cancel": {
+                    "uri": "order\/cancel",
+                    "methods": ["POST"]
+                },
+                "order.admin.cancel": {
+                    "uri": "order\/admin\/cancel",
+                    "methods": ["POST"]
+                },
+                "order.auto_cancel": {
+                    "uri": "order\/auto-cancel",
+                    "methods": ["POST"]
+                },
+                "order.paid": {
+                    "uri": "order\/paid",
+                    "methods": ["POST"]
+                },
+                "order.release_point": {
+                    "uri": "order\/release-point",
+                    "methods": ["POST"]
+                },
+                "order.admin.release_point": {
+                    "uri": "order\/admin\/release-point",
+                    "methods": ["POST"]
+                },
+                "order.admin.failed": {
+                    "uri": "order\/admin\/failed",
+                    "methods": ["POST"]
+                },
+                "admin.coins": {
+                    "uri": "admin\/coins",
+                    "methods": ["GET", "HEAD"]
+                },
+                "coin.show": {
+                    "uri": "admin\/coins\/{id}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["id"]
+                },
+                "coin.store": {
+                    "uri": "admin\/coins\/store",
+                    "methods": ["POST"]
+                },
+                "coin.update": {
+                    "uri": "admin\/coins\/update",
+                    "methods": ["POST"]
+                },
+                "coin.destroy": {
+                    "uri": "admin\/coins\/delete",
+                    "methods": ["DELETE"]
+                },
+                "testimonies": {
+                    "uri": "testimonies",
+                    "methods": ["GET", "HEAD"]
+                },
+                "testimony.store": {
+                    "uri": "testimony\/store",
+                    "methods": ["POST"]
+                },
+                "testimony.update": {
+                    "uri": "testimony\/update",
+                    "methods": ["POST"]
+                },
+                "testimony.destroy": {
+                    "uri": "testimony\/destroy",
+                    "methods": ["POST"]
+                },
+                "vendors": {
+                    "uri": "vendors.html",
+                    "methods": ["GET", "HEAD"]
+                },
+                "vendor.show": {
+                    "uri": "vendors\/{id}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["id"]
+                },
+                "vendor.refresh_page": {
+                    "uri": "vendor\/page\/refresh",
+                    "methods": ["GET", "HEAD"]
+                },
+                "vendor.edit": {
+                    "uri": "vendors\/{id}\/edit",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["id"]
+                },
+                "vendor.update": {
+                    "uri": "vendor\/update",
+                    "methods": ["POST"]
+                },
+                "vendor.apply": {
+                    "uri": "vendor\/apply",
+                    "methods": ["POST"]
+                },
+                "point.transfer": {
+                    "uri": "point\/transfer",
+                    "methods": ["POST"]
+                },
+                "review.store": {
+                    "uri": "review\/store",
+                    "methods": ["POST"]
+                },
+                "review.update": {
+                    "uri": "review\/update",
+                    "methods": ["POST"]
+                },
+                "review.destroy": {
+                    "uri": "review\/destroy",
+                    "methods": ["POST"]
+                },
+                "admin.settings": {
+                    "uri": "admin\/settings",
+                    "methods": ["GET", "HEAD"]
+                },
+                "update_logo_icon": {
+                    "uri": "admin\/settings\/update_logo_icon",
+                    "methods": ["POST"]
+                },
+                "update_company_info": {
+                    "uri": "admin\/settings\/update_company_info",
+                    "methods": ["POST"]
+                },
+                "update_welcome_email": {
+                    "uri": "admin\/settings\/update_welcome_email",
+                    "methods": ["POST"]
+                },
+                "update_q_and_a": {
+                    "uri": "admin\/settings\/update_q_and_a",
+                    "methods": ["POST"]
+                },
+                "update_privacy_policy": {
+                    "uri": "admin\/settings\/update_privacy_policy",
+                    "methods": ["POST"]
+                },
+                "update_about_us": {
+                    "uri": "admin\/settings\/update_about_us",
+                    "methods": ["POST"]
+                },
+                "update_primary_color": {
+                    "uri": "admin\/settings\/update_primary_color",
+                    "methods": ["POST"]
+                },
+                "update_internal_transfer": {
+                    "uri": "admin\/settings\/point_transfer",
+                    "methods": ["POST"]
+                },
+                "update_fees": {
+                    "uri": "admin\/settings\/fees",
+                    "methods": ["POST"]
+                },
+                "update_signup_bonus": {
+                    "uri": "admin\/settings\/signup_bonus",
+                    "methods": ["POST"]
+                },
+                "update_flash_mail_config": {
+                    "uri": "admin\/settings\/flash_mail_config",
+                    "methods": ["POST"]
+                },
+                "update_other_settings": {
+                    "uri": "admin\/settings\/other_settings",
+                    "methods": ["POST"]
+                },
+                "update_terms_conditions": {
+                    "uri": "admin\/settings\/update_terms_conditions",
+                    "methods": ["POST"]
+                },
+                "update_featured_vendor": {
+                    "uri": "admin\/settings\/feature-vendor",
+                    "methods": ["POST"]
+                },
+                "admin.scripts": {
+                    "uri": "admin\/scripts",
+                    "methods": ["GET", "HEAD"]
+                },
+                "admin.scripts.store": {
+                    "uri": "admin\/scripts",
+                    "methods": ["POST"]
+                },
+                "admin.scripts.update": {
+                    "uri": "admin\/scripts\/{script}",
+                    "methods": ["POST"],
+                    "parameters": ["script"],
+                    "bindings": {
+                        "script": "id"
+                    }
+                },
+                "admin.scripts.destroy": {
+                    "uri": "admin\/scripts\/{script}",
+                    "methods": ["DELETE"],
+                    "parameters": ["script"],
+                    "bindings": {
+                        "script": "id"
+                    }
+                },
+                "services": {
+                    "uri": "services.html",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.script.purchase": {
+                    "uri": "services\/scripts\/{script}\/purchase",
+                    "methods": ["POST"],
+                    "parameters": ["script"],
+                    "bindings": {
+                        "script": "id"
+                    }
+                },
+                "services.script.purchase.receipt": {
+                    "uri": "services\/scripts\/purchases\/{purchase}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["purchase"],
+                    "bindings": {
+                        "purchase": "id"
+                    }
+                },
+                "services.script.my_purchases": {
+                    "uri": "services\/scripts\/my-purchases",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.opay": {
+                    "uri": "services\/opay",
+                    "methods": ["GET", "HEAD"]
+                },
+                "opay.balance.update": {
+                    "uri": "services\/opay\/balance\/update",
+                    "methods": ["POST"]
+                },
+                "opay.bank_transfer": {
+                    "uri": "services\/opay\/bank-transfer",
+                    "methods": ["GET", "HEAD"]
+                },
+                "opay.bank_transfer_new": {
+                    "uri": "services\/opay\/bank-transfer\/new",
+                    "methods": ["POST"]
+                },
+                "opay.transactions": {
+                    "uri": "services\/opay\/transactions",
+                    "methods": ["GET", "HEAD"]
+                },
+                "opay.transaction.show": {
+                    "uri": "services\/opay\/transactions\/{id}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["id"]
+                },
+                "opay.transaction.change_date": {
+                    "uri": "services\/opay\/transaction\/change-date",
+                    "methods": ["POST"]
+                },
+                "services.palmpay": {
+                    "uri": "services\/palmpay",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.kuda": {
+                    "uri": "services\/kuda",
+                    "methods": ["GET", "HEAD"]
+                },
+                "kuda.balance.update": {
+                    "uri": "services\/kuda\/balance\/update",
+                    "methods": ["POST"]
+                },
+                "kuda.bank_transfer": {
+                    "uri": "services\/kuda\/bank-transfer",
+                    "methods": ["GET", "HEAD"]
+                },
+                "kuda.bank_transfer_new": {
+                    "uri": "services\/kuda\/bank-transfer\/new",
+                    "methods": ["POST"]
+                },
+                "kuda.payment": {
+                    "uri": "services\/kuda\/payment",
+                    "methods": ["GET", "HEAD"]
+                },
+                "kuda.transaction.show": {
+                    "uri": "services\/kuda\/transactions\/{id}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["id"]
+                },
+                "kuda.transaction.change_date": {
+                    "uri": "services\/kuda\/transaction\/change-date",
+                    "methods": ["POST"]
+                },
+                "services.binance": {
+                    "uri": "services\/binance",
+                    "methods": ["GET", "HEAD"]
+                },
+                "binance.deposit_mail": {
+                    "uri": "services\/binance\/deposit-mail",
+                    "methods": ["GET", "HEAD"]
+                },
+                "binance.custom_mail": {
+                    "uri": "services\/binance\/custom-mail",
+                    "methods": ["GET", "HEAD"]
+                },
+                "binance.send_email_deposit": {
+                    "uri": "services\/binance\/send-email\/deposit",
+                    "methods": ["POST"]
+                },
+                "binance.send_email_custom": {
+                    "uri": "services\/binance\/send-email\/custom",
+                    "methods": ["POST"]
+                },
+                "binance.preview_email": {
+                    "uri": "services\/binance\/preview-email",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.bybit": {
+                    "uri": "services\/bybit",
+                    "methods": ["GET", "HEAD"]
+                },
+                "bybit.preview_email": {
+                    "uri": "services\/bybit\/preview-email",
+                    "methods": ["GET", "HEAD"]
+                },
+                "bybit.send_email": {
+                    "uri": "services\/bybit\/send-email",
+                    "methods": ["POST"]
+                },
+                "services.coinbase": {
+                    "uri": "services\/coinbase",
+                    "methods": ["GET", "HEAD"]
+                },
+                "coinbase.deposit_mail": {
+                    "uri": "services\/coinbase\/deposit-mail",
+                    "methods": ["GET", "HEAD"]
+                },
+                "coinbase.custom_mail": {
+                    "uri": "services\/coinbase\/custom-mail",
+                    "methods": ["GET", "HEAD"]
+                },
+                "coinbase.preview_email": {
+                    "uri": "services\/coinbase\/preview-email",
+                    "methods": ["GET", "HEAD"]
+                },
+                "coinbase.send_email_deposit": {
+                    "uri": "services\/coinbase\/send-email\/deposit",
+                    "methods": ["POST"]
+                },
+                "coinbase.send_email_custom": {
+                    "uri": "services\/coinbase\/send-email\/custom",
+                    "methods": ["POST"]
+                },
+                "services.paypal": {
+                    "uri": "services\/paypal",
+                    "methods": ["GET", "HEAD"]
+                },
+                "paypal.deposit_mail": {
+                    "uri": "services\/paypal\/deposit-mail",
+                    "methods": ["GET", "HEAD"]
+                },
+                "paypal.custom_mail": {
+                    "uri": "services\/paypal\/custom-mail",
+                    "methods": ["GET", "HEAD"]
+                },
+                "paypal.preview_email": {
+                    "uri": "services\/paypal\/preview-email",
+                    "methods": ["GET", "HEAD"]
+                },
+                "paypal.send_email_deposit": {
+                    "uri": "services\/paypal\/send-email\/deposit",
+                    "methods": ["POST"]
+                },
+                "paypal.send_email_custom": {
+                    "uri": "services\/paypal\/send-email\/custom",
+                    "methods": ["POST"]
+                },
+                "services.crypto.com": {
+                    "uri": "services\/crypto.com",
+                    "methods": ["GET", "HEAD"]
+                },
+                "crypto.com.send_email": {
+                    "uri": "services\/crypto.com\/send-email",
+                    "methods": ["POST"]
+                },
+                "crypto.com.preview_email": {
+                    "uri": "services\/crypto.com\/preview-email",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.wise": {
+                    "uri": "services\/wise",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.pass_clone": {
+                    "uri": "services\/pass-clone",
+                    "methods": ["GET", "HEAD"]
+                },
+                "pass_clone.link_status": {
+                    "uri": "services\/pass-clone\/link-status",
+                    "methods": ["POST"]
+                },
+                "services.crypto_receipt": {
+                    "uri": "services\/crypto-receipt",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.crypto_receipt.bybit": {
+                    "uri": "services\/crypto-receipt\/bybit",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.crypto_receipt.bybit.transactions": {
+                    "uri": "services\/crypto-receipt\/bybit\/transactions",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.crypto_receipt.bybit.transaction.show": {
+                    "uri": "services\/crypto-receipt\/bybit\/transactions\/{id}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["id"]
+                },
+                "services.crypto_receipt.bybit.store": {
+                    "uri": "services\/crypto-receipt\/bybit\/store",
+                    "methods": ["POST"]
+                },
+                "services.crypto_receipt.binance": {
+                    "uri": "services\/crypto-receipt\/binance",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.crypto_receipt.binance.transactions": {
+                    "uri": "services\/crypto-receipt\/binance\/transactions",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.crypto_receipt.binance.transaction.show": {
+                    "uri": "services\/crypto-receipt\/binance\/transactions\/{id}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["id"]
+                },
+                "services.crypto_receipt.binance.store": {
+                    "uri": "services\/crypto-receipt\/binance\/store",
+                    "methods": ["POST"]
+                },
+                "services.crypto_receipt.paypal": {
+                    "uri": "services\/crypto-receipt\/paypal",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.crypto_receipt.paypal.transactions": {
+                    "uri": "services\/crypto-receipt\/paypal\/transactions",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.crypto_receipt.paypal.transaction.show": {
+                    "uri": "services\/crypto-receipt\/paypal\/transactions\/{id}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["id"]
+                },
+                "services.crypto_receipt.paypal.store": {
+                    "uri": "services\/crypto-receipt\/paypal\/store",
+                    "methods": ["POST"]
+                },
+                "services.crypto_receipt.cashapp": {
+                    "uri": "services\/crypto-receipt\/cashapp",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.crypto_receipt.cashapp.transactions": {
+                    "uri": "services\/crypto-receipt\/cashapp\/transactions",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.crypto_receipt.cashapp.transaction.show": {
+                    "uri": "services\/crypto-receipt\/cashapp\/transactions\/{id}",
+                    "methods": ["GET", "HEAD"],
+                    "parameters": ["id"]
+                },
+                "services.crypto_receipt.cashapp.store": {
+                    "uri": "services\/crypto-receipt\/cashapp\/store",
+                    "methods": ["POST"]
+                },
+                "services.support_page": {
+                    "uri": "services\/support-page",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.support_page.store": {
+                    "uri": "services\/support-page",
+                    "methods": ["POST"]
+                },
+                "services.support_page.update": {
+                    "uri": "services\/support-page\/{id}",
+                    "methods": ["PUT"],
+                    "parameters": ["id"]
+                },
+                "services.support_page.renew": {
+                    "uri": "services\/support-page\/{id}\/renew",
+                    "methods": ["POST"],
+                    "parameters": ["id"]
+                },
+                "services.support_page.destroy": {
+                    "uri": "services\/support-page\/{id}",
+                    "methods": ["DELETE"],
+                    "parameters": ["id"]
+                },
+                "services.faker": {
+                    "uri": "services\/faker",
+                    "methods": ["GET", "HEAD"]
+                },
+                "services.faker.generate": {
+                    "uri": "services\/faker\/generate",
+                    "methods": ["POST"]
+                },
+                "target.destroy": {
+                    "uri": "target\/destroy",
+                    "methods": ["POST"]
+                },
+                "storage.local": {
+                    "uri": "storage\/{path}",
+                    "methods": ["GET", "HEAD"],
+                    "wheres": {
+                        "path": ".*"
+                    },
+                    "parameters": ["path"]
+                }
+            }
+        };
+        ! function(t, r) {
+            "object" == typeof exports && "undefined" != typeof module ? module.exports = r() : "function" == typeof define && define.amd ? define(r) : (t || self).route = r()
+        }(this, function() {
+            function t(t, r) {
+                for (var n = 0; n < r.length; n++) {
+                    var e = r[n];
+                    e.enumerable = e.enumerable || !1, e.configurable = !0, "value" in e && (e.writable = !0), Object.defineProperty(t, u(e.key), e)
+                }
+            }
+
+            function r(r, n, e) {
+                return n && t(r.prototype, n), e && t(r, e), Object.defineProperty(r, "prototype", {
+                    writable: !1
+                }), r
+            }
+
+            function n() {
+                return n = Object.assign ? Object.assign.bind() : function(t) {
+                    for (var r = 1; r < arguments.length; r++) {
+                        var n = arguments[r];
+                        for (var e in n)({}).hasOwnProperty.call(n, e) && (t[e] = n[e])
+                    }
+                    return t
+                }, n.apply(null, arguments)
+            }
+
+            function e(t) {
+                return e = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function(t) {
+                    return t.__proto__ || Object.getPrototypeOf(t)
+                }, e(t)
+            }
+
+            function o() {
+                try {
+                    var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}))
+                } catch (t) {}
+                return (o = function() {
+                    return !!t
+                })()
+            }
+
+            function i(t, r) {
+                return i = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(t, r) {
+                    return t.__proto__ = r, t
+                }, i(t, r)
+            }
+
+            function u(t) {
+                var r = function(t) {
+                    if ("object" != typeof t || !t) return t;
+                    var r = t[Symbol.toPrimitive];
+                    if (void 0 !== r) {
+                        var n = r.call(t, "string");
+                        if ("object" != typeof n) return n;
+                        throw new TypeError("@@toPrimitive must return a primitive value.")
+                    }
+                    return String(t)
+                }(t);
+                return "symbol" == typeof r ? r : r + ""
+            }
+
+            function f(t) {
+                var r = "function" == typeof Map ? new Map : void 0;
+                return f = function(t) {
+                    if (null === t || ! function(t) {
+                            try {
+                                return -1 !== Function.toString.call(t).indexOf("[native code]")
+                            } catch (r) {
+                                return "function" == typeof t
+                            }
+                        }(t)) return t;
+                    if ("function" != typeof t) throw new TypeError("Super expression must either be null or a function");
+                    if (void 0 !== r) {
+                        if (r.has(t)) return r.get(t);
+                        r.set(t, n)
+                    }
+
+                    function n() {
+                        return function(t, r, n) {
+                            if (o()) return Reflect.construct.apply(null, arguments);
+                            var e = [null];
+                            e.push.apply(e, r);
+                            var u = new(t.bind.apply(t, e));
+                            return n && i(u, n.prototype), u
+                        }(t, arguments, e(this).constructor)
+                    }
+                    return n.prototype = Object.create(t.prototype, {
+                        constructor: {
+                            value: n,
+                            enumerable: !1,
+                            writable: !0,
+                            configurable: !0
+                        }
+                    }), i(n, t)
+                }, f(t)
+            }
+            var a = String.prototype.replace,
+                c = /%20/g,
+                l = "RFC3986",
+                s = {
+                    default: l,
+                    formatters: {
+                        RFC1738: function(t) {
+                            return a.call(t, c, "+")
+                        },
+                        RFC3986: function(t) {
+                            return String(t)
+                        }
+                    },
+                    RFC1738: "RFC1738",
+                    RFC3986: l
+                },
+                v = Object.prototype.hasOwnProperty,
+                p = Array.isArray,
+                y = function() {
+                    for (var t = [], r = 0; r < 256; ++r) t.push("%" + ((r < 16 ? "0" : "") + r.toString(16)).toUpperCase());
+                    return t
+                }(),
+                d = function(t, r) {
+                    for (var n = r && r.plainObjects ? Object.create(null) : {}, e = 0; e < t.length; ++e) void 0 !== t[e] && (n[e] = t[e]);
+                    return n
+                },
+                b = {
+                    arrayToObject: d,
+                    assign: function(t, r) {
+                        return Object.keys(r).reduce(function(t, n) {
+                            return t[n] = r[n], t
+                        }, t)
+                    },
+                    combine: function(t, r) {
+                        return [].concat(t, r)
+                    },
+                    compact: function(t) {
+                        for (var r = [{
+                                obj: {
+                                    o: t
+                                },
+                                prop: "o"
+                            }], n = [], e = 0; e < r.length; ++e)
+                            for (var o = r[e], i = o.obj[o.prop], u = Object.keys(i), f = 0; f < u.length; ++f) {
+                                var a = u[f],
+                                    c = i[a];
+                                "object" == typeof c && null !== c && -1 === n.indexOf(c) && (r.push({
+                                    obj: i,
+                                    prop: a
+                                }), n.push(c))
+                            }
+                        return function(t) {
+                            for (; t.length > 1;) {
+                                var r = t.pop(),
+                                    n = r.obj[r.prop];
+                                if (p(n)) {
+                                    for (var e = [], o = 0; o < n.length; ++o) void 0 !== n[o] && e.push(n[o]);
+                                    r.obj[r.prop] = e
+                                }
+                            }
+                        }(r), t
+                    },
+                    decode: function(t, r, n) {
+                        var e = t.replace(/\+/g, " ");
+                        if ("iso-8859-1" === n) return e.replace(/%[0-9a-f]{2}/gi, unescape);
+                        try {
+                            return decodeURIComponent(e)
+                        } catch (t) {
+                            return e
+                        }
+                    },
+                    encode: function(t, r, n, e, o) {
+                        if (0 === t.length) return t;
+                        var i = t;
+                        if ("symbol" == typeof t ? i = Symbol.prototype.toString.call(t) : "string" != typeof t && (i = String(t)), "iso-8859-1" === n) return escape(i).replace(/%u[0-9a-f]{4}/gi, function(t) {
+                            return "%26%23" + parseInt(t.slice(2), 16) + "%3B"
+                        });
+                        for (var u = "", f = 0; f < i.length; ++f) {
+                            var a = i.charCodeAt(f);
+                            45 === a || 46 === a || 95 === a || 126 === a || a >= 48 && a <= 57 || a >= 65 && a <= 90 || a >= 97 && a <= 122 || o === s.RFC1738 && (40 === a || 41 === a) ? u += i.charAt(f) : a < 128 ? u += y[a] : a < 2048 ? u += y[192 | a >> 6] + y[128 | 63 & a] : a < 55296 || a >= 57344 ? u += y[224 | a >> 12] + y[128 | a >> 6 & 63] + y[128 | 63 & a] : (a = 65536 + ((1023 & a) << 10 | 1023 & i.charCodeAt(f += 1)), u += y[240 | a >> 18] + y[128 | a >> 12 & 63] + y[128 | a >> 6 & 63] + y[128 | 63 & a])
+                        }
+                        return u
+                    },
+                    isBuffer: function(t) {
+                        return !(!t || "object" != typeof t || !(t.constructor && t.constructor.isBuffer && t.constructor.isBuffer(t)))
+                    },
+                    isRegExp: function(t) {
+                        return "[object RegExp]" === Object.prototype.toString.call(t)
+                    },
+                    maybeMap: function(t, r) {
+                        if (p(t)) {
+                            for (var n = [], e = 0; e < t.length; e += 1) n.push(r(t[e]));
+                            return n
+                        }
+                        return r(t)
+                    },
+                    merge: function t(r, n, e) {
+                        if (!n) return r;
+                        if ("object" != typeof n) {
+                            if (p(r)) r.push(n);
+                            else {
+                                if (!r || "object" != typeof r) return [r, n];
+                                (e && (e.plainObjects || e.allowPrototypes) || !v.call(Object.prototype, n)) && (r[n] = !0)
+                            }
+                            return r
+                        }
+                        if (!r || "object" != typeof r) return [r].concat(n);
+                        var o = r;
+                        return p(r) && !p(n) && (o = d(r, e)), p(r) && p(n) ? (n.forEach(function(n, o) {
+                            if (v.call(r, o)) {
+                                var i = r[o];
+                                i && "object" == typeof i && n && "object" == typeof n ? r[o] = t(i, n, e) : r.push(n)
+                            } else r[o] = n
+                        }), r) : Object.keys(n).reduce(function(r, o) {
+                            var i = n[o];
+                            return r[o] = v.call(r, o) ? t(r[o], i, e) : i, r
+                        }, o)
+                    }
+                },
+                h = Object.prototype.hasOwnProperty,
+                g = {
+                    brackets: function(t) {
+                        return t + "[]"
+                    },
+                    comma: "comma",
+                    indices: function(t, r) {
+                        return t + "[" + r + "]"
+                    },
+                    repeat: function(t) {
+                        return t
+                    }
+                },
+                m = Array.isArray,
+                j = String.prototype.split,
+                w = Array.prototype.push,
+                O = function(t, r) {
+                    w.apply(t, m(r) ? r : [r])
+                },
+                E = Date.prototype.toISOString,
+                R = s.default,
+                S = {
+                    addQueryPrefix: !1,
+                    allowDots: !1,
+                    charset: "utf-8",
+                    charsetSentinel: !1,
+                    delimiter: "&",
+                    encode: !0,
+                    encoder: b.encode,
+                    encodeValuesOnly: !1,
+                    format: R,
+                    formatter: s.formatters[R],
+                    indices: !1,
+                    serializeDate: function(t) {
+                        return E.call(t)
+                    },
+                    skipNulls: !1,
+                    strictNullHandling: !1
+                },
+                k = function t(r, n, e, o, i, u, f, a, c, l, s, v, p, y) {
+                    var d, h = r;
+                    if ("function" == typeof f ? h = f(n, h) : h instanceof Date ? h = l(h) : "comma" === e && m(h) && (h = b.maybeMap(h, function(t) {
+                            return t instanceof Date ? l(t) : t
+                        })), null === h) {
+                        if (o) return u && !p ? u(n, S.encoder, y, "key", s) : n;
+                        h = ""
+                    }
+                    if ("string" == typeof(d = h) || "number" == typeof d || "boolean" == typeof d || "symbol" == typeof d || "bigint" == typeof d || b.isBuffer(h)) {
+                        if (u) {
+                            var g = p ? n : u(n, S.encoder, y, "key", s);
+                            if ("comma" === e && p) {
+                                for (var w = j.call(String(h), ","), E = "", R = 0; R < w.length; ++R) E += (0 === R ? "" : ",") + v(u(w[R], S.encoder, y, "value", s));
+                                return [v(g) + "=" + E]
+                            }
+                            return [v(g) + "=" + v(u(h, S.encoder, y, "value", s))]
+                        }
+                        return [v(n) + "=" + v(String(h))]
+                    }
+                    var k, T = [];
+                    if (void 0 === h) return T;
+                    if ("comma" === e && m(h)) k = [{
+                        value: h.length > 0 ? h.join(",") || null : void 0
+                    }];
+                    else if (m(f)) k = f;
+                    else {
+                        var $ = Object.keys(h);
+                        k = a ? $.sort(a) : $
+                    }
+                    for (var x = 0; x < k.length; ++x) {
+                        var N = k[x],
+                            C = "object" == typeof N && void 0 !== N.value ? N.value : h[N];
+                        if (!i || null !== C) {
+                            var A = m(h) ? "function" == typeof e ? e(n, N) : n : n + (c ? "." + N : "[" + N + "]");
+                            O(T, t(C, A, e, o, i, u, f, a, c, l, s, v, p, y))
+                        }
+                    }
+                    return T
+                },
+                T = Object.prototype.hasOwnProperty,
+                $ = Array.isArray,
+                x = {
+                    allowDots: !1,
+                    allowPrototypes: !1,
+                    arrayLimit: 20,
+                    charset: "utf-8",
+                    charsetSentinel: !1,
+                    comma: !1,
+                    decoder: b.decode,
+                    delimiter: "&",
+                    depth: 5,
+                    ignoreQueryPrefix: !1,
+                    interpretNumericEntities: !1,
+                    parameterLimit: 1e3,
+                    parseArrays: !0,
+                    plainObjects: !1,
+                    strictNullHandling: !1
+                },
+                N = function(t) {
+                    return t.replace(/&#(\d+);/g, function(t, r) {
+                        return String.fromCharCode(parseInt(r, 10))
+                    })
+                },
+                C = function(t, r) {
+                    return t && "string" == typeof t && r.comma && t.indexOf(",") > -1 ? t.split(",") : t
+                },
+                A = function(t, r, n, e) {
+                    if (t) {
+                        var o = n.allowDots ? t.replace(/\.([^.[]+)/g, "[$1]") : t,
+                            i = /(\[[^[\]]*])/g,
+                            u = n.depth > 0 && /(\[[^[\]]*])/.exec(o),
+                            f = u ? o.slice(0, u.index) : o,
+                            a = [];
+                        if (f) {
+                            if (!n.plainObjects && T.call(Object.prototype, f) && !n.allowPrototypes) return;
+                            a.push(f)
+                        }
+                        for (var c = 0; n.depth > 0 && null !== (u = i.exec(o)) && c < n.depth;) {
+                            if (c += 1, !n.plainObjects && T.call(Object.prototype, u[1].slice(1, -1)) && !n.allowPrototypes) return;
+                            a.push(u[1])
+                        }
+                        return u && a.push("[" + o.slice(u.index) + "]"),
+                            function(t, r, n, e) {
+                                for (var o = e ? r : C(r, n), i = t.length - 1; i >= 0; --i) {
+                                    var u, f = t[i];
+                                    if ("[]" === f && n.parseArrays) u = [].concat(o);
+                                    else {
+                                        u = n.plainObjects ? Object.create(null) : {};
+                                        var a = "[" === f.charAt(0) && "]" === f.charAt(f.length - 1) ? f.slice(1, -1) : f,
+                                            c = parseInt(a, 10);
+                                        n.parseArrays || "" !== a ? !isNaN(c) && f !== a && String(c) === a && c >= 0 && n.parseArrays && c <= n.arrayLimit ? (u = [])[c] = o : "__proto__" !== a && (u[a] = o) : u = {
+                                            0: o
+                                        }
+                                    }
+                                    o = u
+                                }
+                                return o
+                            }(a, r, n, e)
+                    }
+                },
+                D = function(t, r) {
+                    var n = function(t) {
+                        if (!t) return x;
+                        if (null != t.decoder && "function" != typeof t.decoder) throw new TypeError("Decoder has to be a function.");
+                        if (void 0 !== t.charset && "utf-8" !== t.charset && "iso-8859-1" !== t.charset) throw new TypeError("The charset option must be either utf-8, iso-8859-1, or undefined");
+                        return {
+                            allowDots: void 0 === t.allowDots ? x.allowDots : !!t.allowDots,
+                            allowPrototypes: "boolean" == typeof t.allowPrototypes ? t.allowPrototypes : x.allowPrototypes,
+                            arrayLimit: "number" == typeof t.arrayLimit ? t.arrayLimit : x.arrayLimit,
+                            charset: void 0 === t.charset ? x.charset : t.charset,
+                            charsetSentinel: "boolean" == typeof t.charsetSentinel ? t.charsetSentinel : x.charsetSentinel,
+                            comma: "boolean" == typeof t.comma ? t.comma : x.comma,
+                            decoder: "function" == typeof t.decoder ? t.decoder : x.decoder,
+                            delimiter: "string" == typeof t.delimiter || b.isRegExp(t.delimiter) ? t.delimiter : x.delimiter,
+                            depth: "number" == typeof t.depth || !1 === t.depth ? +t.depth : x.depth,
+                            ignoreQueryPrefix: !0 === t.ignoreQueryPrefix,
+                            interpretNumericEntities: "boolean" == typeof t.interpretNumericEntities ? t.interpretNumericEntities : x.interpretNumericEntities,
+                            parameterLimit: "number" == typeof t.parameterLimit ? t.parameterLimit : x.parameterLimit,
+                            parseArrays: !1 !== t.parseArrays,
+                            plainObjects: "boolean" == typeof t.plainObjects ? t.plainObjects : x.plainObjects,
+                            strictNullHandling: "boolean" == typeof t.strictNullHandling ? t.strictNullHandling : x.strictNullHandling
+                        }
+                    }(r);
+                    if ("" === t || null == t) return n.plainObjects ? Object.create(null) : {};
+                    for (var e = "string" == typeof t ? function(t, r) {
+                            var n, e = {},
+                                o = (r.ignoreQueryPrefix ? t.replace(/^\?/, "") : t).split(r.delimiter, Infinity === r.parameterLimit ? void 0 : r.parameterLimit),
+                                i = -1,
+                                u = r.charset;
+                            if (r.charsetSentinel)
+                                for (n = 0; n < o.length; ++n) 0 === o[n].indexOf("utf8=") && ("utf8=%E2%9C%93" === o[n] ? u = "utf-8" : "utf8=%26%2310003%3B" === o[n] && (u = "iso-8859-1"), i = n, n = o.length);
+                            for (n = 0; n < o.length; ++n)
+                                if (n !== i) {
+                                    var f, a, c = o[n],
+                                        l = c.indexOf("]="),
+                                        s = -1 === l ? c.indexOf("=") : l + 1; - 1 === s ? (f = r.decoder(c, x.decoder, u, "key"), a = r.strictNullHandling ? null : "") : (f = r.decoder(c.slice(0, s), x.decoder, u, "key"), a = b.maybeMap(C(c.slice(s + 1), r), function(t) {
+                                        return r.decoder(t, x.decoder, u, "value")
+                                    })), a && r.interpretNumericEntities && "iso-8859-1" === u && (a = N(a)), c.indexOf("[]=") > -1 && (a = $(a) ? [a] : a), e[f] = T.call(e, f) ? b.combine(e[f], a) : a
+                                }
+                            return e
+                        }(t, n) : t, o = n.plainObjects ? Object.create(null) : {}, i = Object.keys(e), u = 0; u < i.length; ++u) {
+                        var f = i[u],
+                            a = A(f, e[f], n, "string" == typeof t);
+                        o = b.merge(o, a, n)
+                    }
+                    return b.compact(o)
+                },
+                P = /*#__PURE__*/ function() {
+                    function t(t, r, n) {
+                        var e, o;
+                        this.name = t, this.definition = r, this.bindings = null != (e = r.bindings) ? e : {}, this.wheres = null != (o = r.wheres) ? o : {}, this.config = n
+                    }
+                    var n = t.prototype;
+                    return n.matchesUrl = function(t) {
+                        var r, n = this;
+                        if (!this.definition.methods.includes("GET")) return !1;
+                        var e = this.template.replace(/[.*+$()[\]]/g, "\\$&").replace(/(\/?){([^}?]*)(\??)}/g, function(t, r, e, o) {
+                                var i, u = "(?<" + e + ">" + ((null == (i = n.wheres[e]) ? void 0 : i.replace(/(^\^)|(\$$)/g, "")) || "[^/?]+") + ")";
+                                return o ? "(" + r + u + ")?" : "" + r + u
+                            }).replace(/^\w+:\/\//, ""),
+                            o = t.replace(/^\w+:\/\//, "").split("?"),
+                            i = o[0],
+                            u = o[1],
+                            f = null != (r = new RegExp("^" + e + "/?$").exec(i)) ? r : new RegExp("^" + e + "/?$").exec(decodeURI(i));
+                        if (f) {
+                            for (var a in f.groups) f.groups[a] = "string" == typeof f.groups[a] ? decodeURIComponent(f.groups[a]) : f.groups[a];
+                            return {
+                                params: f.groups,
+                                query: D(u)
+                            }
+                        }
+                        return !1
+                    }, n.compile = function(t) {
+                        var r = this;
+                        return this.parameterSegments.length ? this.template.replace(/{([^}?]+)(\??)}/g, function(n, e, o) {
+                            var i, u;
+                            if (!o && [null, void 0].includes(t[e])) throw new Error("Ziggy error: '" + e + "' parameter is required for route '" + r.name + "'.");
+                            if (r.wheres[e] && !new RegExp("^" + (o ? "(" + r.wheres[e] + ")?" : r.wheres[e]) + "$").test(null != (u = t[e]) ? u : "")) throw new Error("Ziggy error: '" + e + "' parameter '" + t[e] + "' does not match required format '" + r.wheres[e] + "' for route '" + r.name + "'.");
+                            return encodeURI(null != (i = t[e]) ? i : "").replace(/%7C/g, "|").replace(/%25/g, "%").replace(/\$/g, "%24")
+                        }).replace(this.config.absolute ? /(\.[^/]+?)(\/\/)/ : /(^)(\/\/)/, "$1/").replace(/\/+$/, "") : this.template
+                    }, r(t, [{
+                        key: "template",
+                        get: function() {
+                            var t = (this.origin + "/" + this.definition.uri).replace(/\/+$/, "");
+                            return "" === t ? "/" : t
+                        }
+                    }, {
+                        key: "origin",
+                        get: function() {
+                            return this.config.absolute ? this.definition.domain ? "" + this.config.url.match(/^\w+:\/\//)[0] + this.definition.domain + (this.config.port ? ":" + this.config.port : "") : this.config.url : ""
+                        }
+                    }, {
+                        key: "parameterSegments",
+                        get: function() {
+                            var t, r;
+                            return null != (t = null == (r = this.template.match(/{[^}?]+\??}/g)) ? void 0 : r.map(function(t) {
+                                return {
+                                    name: t.replace(/{|\??}/g, ""),
+                                    required: !/\?}$/.test(t)
+                                }
+                            })) ? t : []
+                        }
+                    }])
+                }(),
+                F = /*#__PURE__*/ function(t) {
+                    function e(r, e, o, i) {
+                        var u;
+                        if (void 0 === o && (o = !0), (u = t.call(this) || this).t = null != i ? i : "undefined" != typeof Ziggy ? Ziggy : null == globalThis ? void 0 : globalThis.Ziggy, u.t = n({}, u.t, {
+                                absolute: o
+                            }), r) {
+                            if (!u.t.routes[r]) throw new Error("Ziggy error: route '" + r + "' is not in the route list.");
+                            u.i = new P(r, u.t.routes[r], u.t), u.u = u.l(e)
+                        }
+                        return u
+                    }
+                    var o, u;
+                    u = t, (o = e).prototype = Object.create(u.prototype), o.prototype.constructor = o, i(o, u);
+                    var f = e.prototype;
+                    return f.toString = function() {
+                        var t = this,
+                            r = Object.keys(this.u).filter(function(r) {
+                                return !t.i.parameterSegments.some(function(t) {
+                                    return t.name === r
+                                })
+                            }).filter(function(t) {
+                                return "_query" !== t
+                            }).reduce(function(r, e) {
+                                var o;
+                                return n({}, r, ((o = {})[e] = t.u[e], o))
+                            }, {});
+                        return this.i.compile(this.u) + function(t, r) {
+                            var n, e = t,
+                                o = function(t) {
+                                    if (!t) return S;
+                                    if (null != t.encoder && "function" != typeof t.encoder) throw new TypeError("Encoder has to be a function.");
+                                    var r = t.charset || S.charset;
+                                    if (void 0 !== t.charset && "utf-8" !== t.charset && "iso-8859-1" !== t.charset) throw new TypeError("The charset option must be either utf-8, iso-8859-1, or undefined");
+                                    var n = s.default;
+                                    if (void 0 !== t.format) {
+                                        if (!h.call(s.formatters, t.format)) throw new TypeError("Unknown format option provided.");
+                                        n = t.format
+                                    }
+                                    var e = s.formatters[n],
+                                        o = S.filter;
+                                    return ("function" == typeof t.filter || m(t.filter)) && (o = t.filter), {
+                                        addQueryPrefix: "boolean" == typeof t.addQueryPrefix ? t.addQueryPrefix : S.addQueryPrefix,
+                                        allowDots: void 0 === t.allowDots ? S.allowDots : !!t.allowDots,
+                                        charset: r,
+                                        charsetSentinel: "boolean" == typeof t.charsetSentinel ? t.charsetSentinel : S.charsetSentinel,
+                                        delimiter: void 0 === t.delimiter ? S.delimiter : t.delimiter,
+                                        encode: "boolean" == typeof t.encode ? t.encode : S.encode,
+                                        encoder: "function" == typeof t.encoder ? t.encoder : S.encoder,
+                                        encodeValuesOnly: "boolean" == typeof t.encodeValuesOnly ? t.encodeValuesOnly : S.encodeValuesOnly,
+                                        filter: o,
+                                        format: n,
+                                        formatter: e,
+                                        serializeDate: "function" == typeof t.serializeDate ? t.serializeDate : S.serializeDate,
+                                        skipNulls: "boolean" == typeof t.skipNulls ? t.skipNulls : S.skipNulls,
+                                        sort: "function" == typeof t.sort ? t.sort : null,
+                                        strictNullHandling: "boolean" == typeof t.strictNullHandling ? t.strictNullHandling : S.strictNullHandling
+                                    }
+                                }(r);
+                            "function" == typeof o.filter ? e = (0, o.filter)("", e) : m(o.filter) && (n = o.filter);
+                            var i = [];
+                            if ("object" != typeof e || null === e) return "";
+                            var u = g[r && r.arrayFormat in g ? r.arrayFormat : r && "indices" in r ? r.indices ? "indices" : "repeat" : "indices"];
+                            n || (n = Object.keys(e)), o.sort && n.sort(o.sort);
+                            for (var f = 0; f < n.length; ++f) {
+                                var a = n[f];
+                                o.skipNulls && null === e[a] || O(i, k(e[a], a, u, o.strictNullHandling, o.skipNulls, o.encode ? o.encoder : null, o.filter, o.sort, o.allowDots, o.serializeDate, o.format, o.formatter, o.encodeValuesOnly, o.charset))
+                            }
+                            var c = i.join(o.delimiter),
+                                l = !0 === o.addQueryPrefix ? "?" : "";
+                            return o.charsetSentinel && (l += "iso-8859-1" === o.charset ? "utf8=%26%2310003%3B&" : "utf8=%E2%9C%93&"), c.length > 0 ? l + c : ""
+                        }(n({}, r, this.u._query), {
+                            addQueryPrefix: !0,
+                            arrayFormat: "indices",
+                            encodeValuesOnly: !0,
+                            skipNulls: !0,
+                            encoder: function(t, r) {
+                                return "boolean" == typeof t ? Number(t) : r(t)
+                            }
+                        })
+                    }, f.v = function(t) {
+                        var r = this;
+                        t ? this.t.absolute && t.startsWith("/") && (t = this.p().host + t) : t = this.h();
+                        var e = {},
+                            o = Object.entries(this.t.routes).find(function(n) {
+                                return e = new P(n[0], n[1], r.t).matchesUrl(t)
+                            }) || [void 0, void 0];
+                        return n({
+                            name: o[0]
+                        }, e, {
+                            route: o[1]
+                        })
+                    }, f.h = function() {
+                        var t = this.p(),
+                            r = t.pathname,
+                            n = t.search;
+                        return (this.t.absolute ? t.host + r : r.replace(this.t.url.replace(/^\w*:\/\/[^/]+/, ""), "").replace(/^\/+/, "/")) + n
+                    }, f.current = function(t, r) {
+                        var e = this.v(),
+                            o = e.name,
+                            i = e.params,
+                            u = e.query,
+                            f = e.route;
+                        if (!t) return o;
+                        var a = new RegExp("^" + t.replace(/\./g, "\\.").replace(/\*/g, ".*") + "$").test(o);
+                        if ([null, void 0].includes(r) || !a) return a;
+                        var c = new P(o, f, this.t);
+                        r = this.l(r, c);
+                        var l = n({}, i, u);
+                        if (Object.values(r).every(function(t) {
+                                return !t
+                            }) && !Object.values(l).some(function(t) {
+                                return void 0 !== t
+                            })) return !0;
+                        var s = function(t, r) {
+                            return Object.entries(t).every(function(t) {
+                                var n = t[0],
+                                    e = t[1];
+                                return Array.isArray(e) && Array.isArray(r[n]) ? e.every(function(t) {
+                                    return r[n].includes(t)
+                                }) : "object" == typeof e && "object" == typeof r[n] && null !== e && null !== r[n] ? s(e, r[n]) : r[n] == e
+                            })
+                        };
+                        return s(r, l)
+                    }, f.p = function() {
+                        var t, r, n, e, o, i, u = "undefined" != typeof window ? window.location : {},
+                            f = u.host,
+                            a = u.pathname,
+                            c = u.search;
+                        return {
+                            host: null != (t = null == (r = this.t.location) ? void 0 : r.host) ? t : void 0 === f ? "" : f,
+                            pathname: null != (n = null == (e = this.t.location) ? void 0 : e.pathname) ? n : void 0 === a ? "" : a,
+                            search: null != (o = null == (i = this.t.location) ? void 0 : i.search) ? o : void 0 === c ? "" : c
+                        }
+                    }, f.has = function(t) {
+                        return this.t.routes.hasOwnProperty(t)
+                    }, f.l = function(t, r) {
+                        var e = this;
+                        void 0 === t && (t = {}), void 0 === r && (r = this.i), null != t || (t = {}), t = ["string", "number"].includes(typeof t) ? [t] : t;
+                        var o = r.parameterSegments.filter(function(t) {
+                            return !e.t.defaults[t.name]
+                        });
+                        if (Array.isArray(t)) t = t.reduce(function(t, r, e) {
+                            var i, u;
+                            return n({}, t, o[e] ? ((i = {})[o[e].name] = r, i) : "object" == typeof r ? r : ((u = {})[r] = "", u))
+                        }, {});
+                        else if (1 === o.length && !t[o[0].name] && (t.hasOwnProperty(Object.values(r.bindings)[0]) || t.hasOwnProperty("id"))) {
+                            var i;
+                            (i = {})[o[0].name] = t, t = i
+                        }
+                        return n({}, this.m(r), this.j(t, r))
+                    }, f.m = function(t) {
+                        var r = this;
+                        return t.parameterSegments.filter(function(t) {
+                            return r.t.defaults[t.name]
+                        }).reduce(function(t, e, o) {
+                            var i, u = e.name;
+                            return n({}, t, ((i = {})[u] = r.t.defaults[u], i))
+                        }, {})
+                    }, f.j = function(t, r) {
+                        var e = r.bindings,
+                            o = r.parameterSegments;
+                        return Object.entries(t).reduce(function(t, r) {
+                            var i, u, f = r[0],
+                                a = r[1];
+                            if (!a || "object" != typeof a || Array.isArray(a) || !o.some(function(t) {
+                                    return t.name === f
+                                })) return n({}, t, ((u = {})[f] = a, u));
+                            if (!a.hasOwnProperty(e[f])) {
+                                if (!a.hasOwnProperty("id")) throw new Error("Ziggy error: object passed as '" + f + "' parameter is missing route model binding key '" + e[f] + "'.");
+                                e[f] = "id"
+                            }
+                            return n({}, t, ((i = {})[f] = a[e[f]], i))
+                        }, {})
+                    }, f.valueOf = function() {
+                        return this.toString()
+                    }, r(e, [{
+                        key: "params",
+                        get: function() {
+                            var t = this.v();
+                            return n({}, t.params, t.query)
+                        }
+                    }, {
+                        key: "routeParams",
+                        get: function() {
+                            return this.v().params
+                        }
+                    }, {
+                        key: "queryParams",
+                        get: function() {
+                            return this.v().query
+                        }
+                    }])
+                }( /*#__PURE__*/ f(String));
+            return function(t, r, n, e) {
+                var o = new F(t, r, n, e);
+                return t ? o.toString() : o
+            }
+        });
+    </script>
+    <link rel="preload" as="style" href="../../build/assets/app-BeLEstaR.css" />
+    <link rel="modulepreload" href="../../build/assets/app-CPSemYgC.js" />
+    <link rel="modulepreload" href="../../build/assets/index-DJSNAiVU.js" />
+    <link rel="modulepreload" href="../../build/assets/AppLayout-BVugRKpX.js" />
+    <link rel="modulepreload" href="../../build/assets/UserLayout-P-Xlti_8.js" />
+    <link rel="modulepreload" href="../../build/assets/ServiceIcon-C88v8dGn.js" />
+    <link rel="modulepreload" href="../../build/assets/icon-mLvMNoaA.js" />
+    <link rel="modulepreload" href="../../build/assets/kuda-D--VG3aI.js" />
+    <link rel="modulepreload" href="../../build/assets/binance-D4PhrHxU.js" />
+    <link rel="modulepreload" href="../../build/assets/bybit-DyzaUzuj.js" />
+    <link rel="modulepreload" href="../../build/assets/coinbase-BiTggD6g.js" />
+    <link rel="modulepreload" href="../../build/assets/paypal-CuuRI83g.js" />
+    <link rel="modulepreload" href="../../build/assets/wise-Clvn4Y5s.js" />
+    <link rel="modulepreload" href="../../build/assets/crypto.com-logo-Do31OLD5.js" />
+    <link rel="modulepreload" href="../../build/assets/cashapp-B-zEz66O.js" />
+    <link rel="modulepreload" href="../../build/assets/steal-pass-icon-D7aV-WCY.js" />
+    <link rel="modulepreload" href="../../build/assets/button-BamgVvPn.js" />
+    <link rel="modulepreload" href="../../build/assets/formatNumber-Ce-00Vs2.js" />
+    <link rel="modulepreload" href="../../build/assets/dialog-BauOFWUU.js" />
+    <link rel="modulepreload" href="../../build/assets/index-BIbNlVZ0.js" />
+    <link rel="modulepreload" href="../../build/assets/arrow-left-D8sGkDbn.js" />
+    <link rel="modulepreload" href="../../build/assets/arrow-right-b0B6GwCf.js" />
+    <link rel="modulepreload" href="../../build/assets/check-CsA8fo_3.js" />
+    <link rel="modulepreload" href="../../build/assets/dropdown-menu-73g9f9Cf.js" />
+    <link rel="modulepreload" href="../../build/assets/external-link-B9zueEzt.js" />
+    <link rel="modulepreload" href="../../build/assets/createLucideIcon-rN-Z3mCX.js" />
+    <link rel="modulepreload" href="../../build/assets/polished.esm-Cyjuaya6.js" />
+    <link rel="modulepreload" href="../../build/assets/code-C-jukJBp.js" />
+    <link rel="modulepreload" href="../../build/assets/eye-Vvb-RJj7.js" />
+    <link rel="modulepreload" href="../../build/assets/sparkles-B4wUaH_8.js" />
+    <link rel="modulepreload" href="../../build/assets/shopping-cart-Cv9LyvKh.js" />
+    <link rel="modulepreload" href="../../build/assets/database-CwXutizx.js" />
+    <link rel="modulepreload" href="../../build/assets/landmark-Dl0zS6Rm.js" />
+    <link rel="modulepreload" href="../../build/assets/mail--HRBfw0-.js" />
+    <link rel="modulepreload" href="../../build/assets/receipt-BLgBmkhL.js" />
+    <link rel="modulepreload" href="../../build/assets/globe-CPNy-IB6.js" />
+    <link rel="modulepreload" href="../../build/assets/key-round-DugN7wqC.js" />
+    <link rel="modulepreload" href="../../build/assets/history-Co-nSHIy.js" />
+    <link rel="modulepreload" href="../../build/assets/index-Dnc4ycMJ.js" />
+    <link rel="modulepreload" href="../../build/assets/index-CGcBZyi7.js" />
+    <link rel="modulepreload" href="../../build/assets/iconBase-BweG_smQ.js" />
+    <link rel="modulepreload" href="../../build/assets/mode-toggle-BKQyjCmw.js" />
+    <link rel="modulepreload" href="../../build/assets/avatar-BLCVZC4Y.js" />
+    <link rel="modulepreload" href="../../build/assets/index-BUKYvAHl.js" />
+    <link rel="modulepreload" href="../../build/assets/index-TtBBfnyI.js" />
+    <link rel="modulepreload" href="../../build/assets/stringInitials-Bl64PEY-.js" />
+    <link rel="modulepreload" href="../../build/assets/copyToClipboard-B49pzkZl.js" />
+    <link rel="modulepreload" href="../../build/assets/user-plus-3llJDC4d.js" />
+    <link rel="modulepreload" href="../../build/assets/index-C4i189TA.js" />
+    <link rel="modulepreload" href="../../build/assets/settings-KYD-P5eY.js" />
+    <link rel="modulepreload" href="../../build/assets/dollar-sign-4CE7QsSH.js" />
+    <link rel="modulepreload" href="../../build/assets/users-ZqGOPOiM.js" />
+    <link rel="modulepreload" href="../../build/assets/index-DdW_XmhI.js" />
+    <link rel="modulepreload" href="../../build/assets/Combination-C3j38xtn.js" />
+    <link rel="modulepreload" href="../../build/assets/x-Bf_gKvvP.js" />
+    <link rel="modulepreload" href="../../build/assets/index-Dc_FVRD7.js" />
+    <link rel="modulepreload" href="../../build/assets/index-bfqS6E9x.js" />
+    <link rel="modulepreload" href="../../build/assets/index-CChplcHQ.js" />
+    <link rel="modulepreload" href="../../build/assets/index-ClHHFVVV.js" />
+    <link rel="modulepreload" href="../../build/assets/floating-ui.react-dom-CPrMKUU6.js" />
+    <link rel="modulepreload" href="../../build/assets/index-D_XWqw2c.js" />
+    <link rel="modulepreload" href="../../build/assets/index-BN1_Zxci.js" />
+    <link rel="modulepreload" href="../../build/assets/index-B-GRoRe2.js" />
+    <link rel="modulepreload" href="../../build/assets/chevron-right-Wmdl5VZJ.js" />
+    <link rel="stylesheet" href="../../build/assets/app-BeLEstaR.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../supabase-browser.js"></script>
+    <script src="../../static-slipcraft.js"></script>
+    <!-- Auth guard + static navigation handled by static-slipcraft.js -->
+    <script type="module" src="../../build/assets/app-CPSemYgC.js"></script>
+    <script type="module" src="../../build/assets/index-DJSNAiVU.js"></script>
+    <script>
+        window.addEventListener('load', () => window.setTimeout(() => {
+            const makeLink = (asset) => {
+                const link = document.createElement('link')
+
+                Object.keys(asset).forEach((attribute) => {
+                    link.setAttribute(attribute, asset[attribute])
+                })
+
+                return link
+            }
+
+            const loadNext = (assets, count) => window.setTimeout(() => {
+                if (count > assets.length) {
+                    count = assets.length
+
+                    if (count === 0) {
+                        return
+                    }
+                }
+
+                const fragment = new DocumentFragment
+
+                while (count > 0) {
+                    const link = makeLink(assets.shift())
+                    fragment.append(link)
+                    count--
+
+                    if (assets.length) {
+                        link.onload = () => loadNext(assets, 1)
+                        link.onerror = () => loadNext(assets, 1)
+                    }
+                }
+
+                document.head.append(fragment)
+            })
+
+            loadNext(JSON.parse('[{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/About-s15ndoyB.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/CoinDetail-0UEfvuP6.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/GoBack-CC6xQy9d.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/AdminLayout-CjAaUsLE.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/select-DtLj10f6.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/coinsData-DP2R8dhX.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Loader-DxAivhzx.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-BzCTRD1y.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-SHdw-lpr.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-C08e2LbI.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/chevron-down-DGcLvqVu.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Coins-34ly6e5e.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Dashboard-hzVuQ2wX.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Orders-oTh9Acs3.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/tabs-DsYpcyMr.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/OrderCard-WbF5RTqn.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/formatDate-DSWK92vn.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/capitalizeFirstLetter-S2qrb80k.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/copy-CA1ynquI.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Scripts-CfLAlc7b.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/user-8b1sbuCN.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/package-CYq7Y392.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/plus-D1TJ0vFK.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/search-BS5sFJC3.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/ServiceAnalytics-B8asIbC3.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/trending-up-35_392uf.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Settings-a3B9RuaP.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/accordion-CW7Z_BS5.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-Cr56Fz-Y.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-LrYBO14D.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Testimonies-Cb2VUje0.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Transactions-BUbhr9w9.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/TransactionCard-pAI8RxS2.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/UserDetail-BPun4AMm.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/PhoneCustomInput-BJtrTbNc.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-D5rHYsT_.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/coins-8AZIbOBg.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/shopping-bag-cJyCFxgy.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/UserTransactions-B1uePmIM.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Users-CLXHQBBf.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/ConfirmPassword-L1QtitfD.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/InputError-BME53IRK.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/InputLabel-Du73jAQb.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/ForgotPassword-BQxoSoEQ.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Login-B-T3fU1D.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/checkbox-CWezrRrA.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/lock-BPuQLOUF.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Register-kHViERGY.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/at-sign-BMMcc4kU.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/ResetPassword-CkcAmbGf.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/VerifyEmail-F3DLYwfM.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/BuyPoint-DRaPf2cJ.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/clock-D_O17udO.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Contact-D2lfvt1H.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/send-DwrV7dp2.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/message-circle-CG73Eipp.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Dashboard-FAR1vokz.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/ApplyVendorModal-DT9eSAp_.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/wallet-CWU1D2kp.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/headset-rbYpeB5I.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Help-BtBjXqNb.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Home-Qbyt_nJL.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/OrderDetail-Da_PBzvY.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/CountDownTimer-dIOlT7be.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/circle-check-DFO3SqUr.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/ReviewCard-BaC5bqHk.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Orders-DVGqaXcO.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/PrivacyPolicy-DfwtjyOD.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Edit-CebqBolc.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/transition-FUaqmUen.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/DeleteUserForm--uEFdFPJ.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/UpdatePasswordForm-CGwFJJ2y.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/UpdateProfileInformationForm-Bd-qGWJR.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Referral-D3F1_4wI.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/CustomMail-RuA3lZST.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/SendEmailModal-D5obLEYB.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/switch-CoiwG1mq.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/DepositMail-wbrw4jpA.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-B2Fv358n.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-CJzyntig.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/TransactionDetail-DB5xsjLO.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-CX8Cjk5s.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-QFAS8Pek.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-CdLM64Mx.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Transactions-DrqmJO21.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-DR2HD5r8.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-mQuOW4vi.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index.es-CJ6fseqE.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022as\u0022:\u0022style\u0022,\u0022href\u0022:\u0022../../build/assets/index-B5U4kmJ6.css\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/TransactionDetail-DOHsvVJ0.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Transactions-BV-035FG.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-CEQXxg-T.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-DGsexSsc.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/TransactionDetail-CSYqOhRY.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-DuXjXc-t.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Transactions-DAB9YF8M.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-B3HdkslN.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-BR5VxGPD.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/TransactionDetail-v8ZFPXeQ.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-BNIhABM6.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Transactions-DjKWN-X_.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-CBggooLB.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-8To1yoG0.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-Cl4KPKmW.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/CustomMail-BCZXp6Ix.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/DepositMail-kW_mm33q.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-DPiaG23p.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-BlKRE_2q.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/minus-C3KCdFFt.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/refresh-cw-Dn0TKcRa.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/BankTransfer-wDvlvxXo.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-BR67zcxG.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/showError-ZlrsJsc2.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/useBankLogo-cBQJdN2m.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Payment-BYPhKUz1.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/TransactionDetail-B_sQ-W5R.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/copy-icon-C0HlUZ0h.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-kZlHqKLG.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/BankTransfer-TS4GQrWH.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-C8Sgx4sA.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/TransactionDetail-DGJunTqF.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Transactions-CyceUmsa.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/TransactionCard-CX5uFjVO.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-BFuHZVYF.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-CibHRnx7.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/CustomMail-lUNI9kyZ.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/DespositMail-C8Iyc0tA.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-D7kcxgO1.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/MyPurchases-CGfPeXIE.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/PurchaseReceipt-DVlhuhIf.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/calendar-BkJT-0DW.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-rkLRl29I.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-BL3h-Ntb.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/TransactionDetail-DBKs1s4R.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Transactions-Cg6UUPmt.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/VendorDetail-CFn3sq-G.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/VendorSettings-CL6s_T5o.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Vendors-CMAxoapo.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Nav-CXqgDSmx.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/Testimonies-BbeA1JVh.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-Bsd3BJPI.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/zap-DAw3SZK0.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/shield-CPuMYdQm.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/sheet-BiVVAgsw.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/circle-help-BcgS28iq.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/scroll-area-B-fov1Vq.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-BdQq_4o_.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/TestimonyCard-ZfOojPBD.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/index-CitaMW1f.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/showIntertiaErrors-Bokdg093.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/input-MxT5BQBW.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/label-DzYRBl-l.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/isNumber-BPVTmlLX.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/textarea-D5O83yDd.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/square-pen-DXyr7M_P.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022},{\u0022rel\u0022:\u0022prefetch\u0022,\u0022href\u0022:\u0022../../build/assets/trash-2-CiMSE6TR.js\u0022,\u0022fetchpriority\u0022:\u0022low\u0022}]'), 3)
+        }))
+    </script>
+</head>
+
+<body class="font-sans antialiased">
+    <div id="app" data-page="{&quot;component&quot;:&quot;Services\/scripts\/MyPurchases&quot;,&quot;props&quot;:{&quot;errors&quot;:{},&quot;auth&quot;:{&quot;user&quot;:{&quot;id&quot;:329982,&quot;name&quot;:&quot;John Ayo&quot;,&quot;bank_name&quot;:null,&quot;bank_account_number&quot;:null,&quot;email&quot;:&quot;john.5007@gomlearning.app&quot;,&quot;username&quot;:&quot;johnayo&quot;,&quot;referrer_username&quot;:null,&quot;whatsapp_number&quot;:null,&quot;made_first_deposit&quot;:&quot;no&quot;,&quot;point_main_balance&quot;:0,&quot;point_holding_balance&quot;:0,&quot;naira_per_point&quot;:1,&quot;payment_duration_minutes&quot;:15,&quot;min_point_sales&quot;:100,&quot;last_seen&quot;:null,&quot;listing&quot;:&quot;off&quot;,&quot;vendor&quot;:&quot;no&quot;,&quot;vendor_terms&quot;:null,&quot;role&quot;:&quot;user&quot;,&quot;manager&quot;:&quot;no&quot;,&quot;status&quot;:&quot;active&quot;,&quot;email_verified_at&quot;:null,&quot;pass_link_active&quot;:&quot;yes&quot;,&quot;created_at&quot;:&quot;2026-03-09T11:45:42.000000Z&quot;,&quot;updated_at&quot;:&quot;2026-03-09T11:56:53.000000Z&quot;,&quot;opay_balance&quot;:150000,&quot;kuda_balance&quot;:150000,&quot;payment_link&quot;:null,&quot;payment_link_1000&quot;:null,&quot;payment_link_1500&quot;:null,&quot;payment_link_2000&quot;:null,&quot;payment_link_5000&quot;:null,&quot;payment_link_10000&quot;:null,&quot;payment_type&quot;:&quot;bank-transfer&quot;,&quot;payment_link_15000&quot;:null,&quot;payment_link_25000&quot;:null,&quot;payment_link_50000&quot;:null,&quot;payment_link_100000&quot;:null},&quot;referred_users_count&quot;:0},&quot;platform&quot;:{&quot;id&quot;:1,&quot;created_at&quot;:&quot;2025-02-25T05:30:45.000000Z&quot;,&quot;updated_at&quot;:&quot;2026-03-09T11:50:01.000000Z&quot;,&quot;name&quot;:&quot;SlipCraft&quot;,&quot;title&quot;:&quot;SlipCraft&quot;,&quot;description&quot;:&quot;A
+spot to craft your receipt&quot;,&quot;phone&quot;:&quot;1-718-409-4162&quot;,&quot;email&quot;:&quot;support@slipcraft.net&quot;,&quot;address&quot;:&quot;234 Weimann Station Suite 920\nMayertown, FL 40244-0699&quot;,&quot;icon_path&quot;:&quot;\/storage\/platform\/XnLToB3U0ZqWWx4QR6OLNekEW6XxoXSO5EwfbFNK.png&quot;,&quot;logo_path&quot;:&quot;\/storage\/platform\/FPJtmwYTiro1kSeZHisRDKngsugD4PbWFBjyqbxJ.png&quot;,&quot;primary_color&quot;:&quot;#f8812d&quot;,&quot;vendor_application_fee&quot;:560000,&quot;point_transfer_min&quot;:100,&quot;point_transfer_max&quot;:15000,&quot;signup_bonus&quot;:0,&quot;signup_bonus_status&quot;:&quot;off&quot;,&quot;bank_balance_change_fee&quot;:37.5,&quot;naira_per_dollar&quot;:1350,&quot;naira_per_point&quot;:1,&quot;referral_reward_percent&quot;:1.5,&quot;bank_slip_percent_fee&quot;:0.5,&quot;bank_slip_min_fee&quot;:375,&quot;bank_slip_max_fee&quot;:25000,&quot;bank_slip_change_date_fee&quot;:380,&quot;email_slip_fee&quot;:250,&quot;store_pass_fee&quot;:125,&quot;unlock_pass_fee&quot;:5,&quot;total_users&quot;:283218,&quot;activities&quot;:2394857,&quot;email_sent&quot;:9475986,&quot;welcome_email_status&quot;:&quot;off&quot;,&quot;welcome_email_message&quot;:&quot;Welcome
+to slipcraft&quot;,&quot;privacy_policy&quot;:&quot;
+&lt;p class=\ &quot;text-base md:text-lg\&quot;&gt;\nAt slipcraft, we value your privacy and are committed to protecting your personal information. \nThis Privacy Policy outlines how we collect, use, and safeguard your data when you use our platform.\n
+    &lt;\/p&gt;\n\n
+        &lt;p class=\ &quot;font-semibold text-xl mt-6 mb-2\&quot;&gt;1. Information We Collect
+            &lt;\/p&gt;\n
+                &lt;ul class=\ &quot;list-disc pl-6 text-base md:text-lg\&quot;&gt;\n
+                    &lt;li&gt;Personal Information: Name, email address, phone number, and other details provided during registration.
+                        &lt;\/li&gt;\n
+                            &lt;li&gt;Transaction Data: Details of your transaction activities and preferences.
+                                &lt;\/li&gt;\n
+                                    &lt;li&gt;Technical Information: IP address, browser type, device information, and usage statistics.
+                                        &lt;\/li&gt;\n
+                                            &lt;\/ul&gt;\n\n
+                                                &lt;p class=\ &quot;font-semibold text-xl mt-6 mb-2\&quot;&gt;2. How We Use Your Information
+                                                    &lt;\/p&gt;\n
+                                                        &lt;ul class=\ &quot;list-disc pl-6 text-base md:text-lg\&quot;&gt;\n
+                                                            &lt;li&gt;To provide and improve our services, including account management and customer support.
+                                                                &lt;\/li&gt;\n
+                                                                    &lt;li&gt;To process transactions securely and efficiently.
+                                                                        &lt;\/li&gt;\n
+                                                                            &lt;li&gt;To communicate updates, offers, and relevant information about slipcraft.
+                                                                                &lt;\/li&gt;\n
+                                                                                    &lt;li&gt;To comply with legal and regulatory requirements.
+                                                                                        &lt;\/li&gt;\n
+                                                                                            &lt;\/ul&gt;\n\n
+                                                                                                &lt;p class=\ &quot;font-semibold text-xl mt-6 mb-2\&quot;&gt;3. Data Security
+                                                                                                    &lt;\/p&gt;\n
+                                                                                                        &lt;p class=\ &quot;text-base md:text-lg\&quot;&gt;\nWe implement advanced security measures to protect your personal information from unauthorized access, \ndisclosure, alteration, or destruction.
+                                                                                                            Your data is encrypted and stored on secure servers.\n
+                                                                                                            &lt;\/p&gt;\n\n
+                                                                                                                &lt;p class=\ &quot;font-semibold text-xl mt-6 mb-2\&quot;&gt;4. Sharing Your Information
+                                                                                                                    &lt;\/p&gt;\n
+                                                                                                                        &lt;p class=\ &quot;text-base md:text-lg\&quot;&gt;\nWe do not sell or rent your personal information to third parties. We may share your data with trusted \npartners only when necessary
+                                                                                                                            to provide our services or comply with legal obligations.\n
+                                                                                                                            &lt;\/p&gt;\n\n
+                                                                                                                                &lt;p class=\ &quot;font-semibold text-xl mt-6 mb-2\&quot;&gt;5. Your Rights
+                                                                                                                                    &lt;\/p&gt;\n
+                                                                                                                                        &lt;p class=\ &quot;text-base md:text-lg\&quot;&gt;\nYou have the right to access, update, or delete your personal information. You may also opt out of \nreceiving marketing
+                                                                                                                                            communications by adjusting your account preferences.\n
+                                                                                                                                            &lt;\/p&gt;\n\n
+                                                                                                                                                &lt;p class=\ &quot;font-semibold text-xl mt-6 mb-2\&quot;&gt;6. Updates to This Policy
+                                                                                                                                                    &lt;\/p&gt;\n
+                                                                                                                                                        &lt;p class=\ &quot;text-base md:text-lg\&quot;&gt;\nslipcraft may update this Privacy Policy from time to time. We will notify you of significant changes
+                                                                                                                                                            \nby posting the updated policy on our platform or sending you a notification.\n
+                                                                                                                                                            &lt;\/p&gt;\n\n
+                                                                                                                                                                &lt;p class=\ &quot;font-semibold text-xl mt-6 mb-2\&quot;&gt;7. Contact Us
+                                                                                                                                                                    &lt;\/p&gt;\n
+                                                                                                                                                                        &lt;p class=\ &quot;text-base md:text-lg\&quot;&gt;\nIf you have any questions or concerns about this Privacy Policy, please contact us
+                                                                                                                                                                            at \n&lt;a href=\ &quot;mailto:support@slipcraft.com\&quot; class=\ &quot;underline\&quot;&gt;support@slipcraft.com&lt;\/a&gt;.\n&lt;\/p&gt;&quot;,&quot;about_us&quot;:&quot;\n        &lt;p class=&#039;font-bold text-3xl mb-4 text-center&#039;&gt;Welcome to Slipcraft&lt;\/p&gt;\n    \n        &lt;p class=&#039;text-base md:text-lg&#039;&gt;\n        At Slipcraft, we are committed to making receipt generation seamless, secure, and professional. \n        Whether you\u2019re an individual or a business, our platform empowers you to create and share \n        customized receipts in just a few clicks.\n        &lt;\/p&gt;\n    \n        &lt;p class=&#039;text-base md:text-lg mt-4&#039;&gt;\n        With a user-friendly interface, bank-specific templates, and the ability to send receipts via email, \n        we simplify your transaction documentation process. Say goodbye to paperwork and hello to efficiency!\n        &lt;\/p&gt;\n    \n        &lt;p class=&#039;text-base md:text-lg mt-4&#039;&gt;\n        Join our growing community of users and experience a smarter way to manage your transaction records. \n        Your journey to professional and accurate receipt generation starts here with Slipcraft.\n        &lt;\/p&gt;\n    &quot;,&quot;help_common_questions&quot;:[{&quot;id&quot;:&quot;68de89f5-ab89-3a59-bc74-566a39fe90c2&quot;,&quot;question&quot;:&quot;How do I sign up?&quot;,&quot;answer&quot;:&quot;Click the sign-up button on the homepage.&quot;},{&quot;id&quot;:&quot;156f2187-a192-3dcc-911f-c697653f25ea&quot;,&quot;question&quot;:&quot;I have a complaint or feedback; how do I contact you?&quot;,&quot;answer&quot;:&quot;Please send an email to help@ouremail.com or reach out through our social media platforms.&quot;},{&quot;id&quot;:&quot;7202d719-210d-3ce9-be3b-bdd156dda3e0&quot;,&quot;question&quot;:&quot;What are your Terms of Use and Privacy Policy?&quot;,&quot;answer&quot;:&quot;Go to our terms of use and privacy policy pages (links in the footer of the site).&quot;}],&quot;flash_mail_config_host&quot;:&quot;smtp.hostinger.com&quot;,&quot;flash_mail_config_port&quot;:465,&quot;flash_mail_config_username&quot;:&quot;noreply12@mailslp.site&quot;,&quot;flash_mail_config_password&quot;:&quot;1Gomakeam@&quot;,&quot;flash_mail_config_encryption&quot;:&quot;tls&quot;,&quot;terms_conditions&quot;:&quot;&lt;html lang=\&quot;en\&quot;&gt;\n&lt;head&gt;\n    &lt;style&gt;\n        body {\n            font-family: Arial, sans-serif;\n            line-height: 1.6;\n            margin: 40px;\n            padding: 20px;\n        }\n        h1, h2 {\n            font-weight: bold;\n        }\n        .container {\n            max-width: 800px;\n            margin: auto;\n            padding: 20px;\n            border-radius: 8px;\n            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n        }\n        ul {\n            margin-left: 20px;\n        }\n    &lt;\/style&gt;\n&lt;\/head&gt;\n&lt;body&gt;\n    &lt;div class=\&quot;container flex flex-col gap-2\&quot;&gt;\n        &lt;p&gt;Welcome to Slipcraft! By using our platform, you agree to the following terms and conditions. Please read them carefully.&lt;\/p&gt;\n\n        &lt;h2&gt;1. Acceptance of Terms&lt;\/h2&gt;\n        &lt;p&gt;By accessing and using Slipcraft, you agree to comply with these Terms and Conditions. If you do not agree, please refrain from using our services.&lt;\/p&gt;\n\n        &lt;h2&gt;2. Purpose of the Platform&lt;\/h2&gt;\n        &lt;p&gt;Slipcraft is designed to generate digital receipts and send transactional emails for documentation purposes. It is strictly prohibited to use our platform for fraudulent or misleading activities.&lt;\/p&gt;\n\n        &lt;h2&gt;3. Ethical Guidelines&lt;\/h2&gt;\n        &lt;ul&gt;\n            &lt;li&gt;Users must not create fake, misleading, or deceptive receipts.&lt;\/li&gt;\n            &lt;li&gt;Receipt generation should only be used for legitimate documentation purposes.&lt;\/li&gt;\n            &lt;li&gt;Emails sent through our platform must not impersonate banks, businesses, or any official entity in a fraudulent manner.&lt;\/li&gt;\n            &lt;li&gt;Misuse of the platform for scams, illegal transactions, or deceptive practices is strictly prohibited.&lt;\/li&gt;\n        &lt;\/ul&gt;\n\n        &lt;h2&gt;4. User Responsibilities&lt;\/h2&gt;\n        &lt;ul&gt;\n            &lt;li&gt;Users are responsible for ensuring that any receipt they generate accurately represents a real transaction.&lt;\/li&gt;\n            &lt;li&gt;Slipcraft does not verify transaction authenticity; users must use the service ethically.&lt;\/li&gt;\n            &lt;li&gt;Any misuse of the platform that results in harm, deception, or fraud will lead to immediate account suspension.&lt;\/li&gt;\n        &lt;\/ul&gt;\n\n        &lt;h2&gt;5. Security and Compliance&lt;\/h2&gt;\n        &lt;p&gt;We prioritize security and compliance to prevent fraudulent activities. Our system monitors suspicious activities and reserves the right to take action against violators.&lt;\/p&gt;\n\n        &lt;h2&gt;6. Limitation of Liability&lt;\/h2&gt;\n        &lt;p&gt;Slipcraft is not responsible for any misuse of generated receipts. Users assume full responsibility for their actions when using this platform.&lt;\/p&gt;\n\n        &lt;h2&gt;7. Termination of Service&lt;\/h2&gt;\n        &lt;p&gt;We reserve the right to suspend or terminate access to users who violate these terms or misuse our services.&lt;\/p&gt;\n\n        &lt;h2&gt;8. Changes to Terms&lt;\/h2&gt;\n        &lt;p&gt;We may update these Terms and Conditions at any time. Users will be notified of significant changes.&lt;\/p&gt;\n\n        &lt;h2&gt;9. Contact Us&lt;\/h2&gt;\n        &lt;p&gt;If you have any questions regarding these Terms and Conditions, please contact us at &lt;a href=\&quot;mailto:support@slipcraft.com\&quot;&gt;support@slipcraft.com&lt;\/a&gt;.&lt;\/p&gt;\n\n        &lt;p&gt;&lt;strong&gt;By using Slipcraft, you acknowledge and agree to abide by these terms.&lt;\/strong&gt;&lt;\/p&gt;\n    &lt;\/div&gt;\n&lt;\/body&gt;\n&lt;\/html&gt;&quot;,&quot;telegram_support_link&quot;:&quot;https:\/\/t.me\/+DhQqLRVqOHpmMmQ0&quot;,&quot;featured_vendor&quot;:&quot;yourstruly&quot;,&quot;receipt_fee&quot;:250,&quot;support_page_daily_fee&quot;:335,&quot;faker_fee&quot;:25,&quot;article_single_price&quot;:1500,&quot;article_subscription_price&quot;:15000,&quot;article_subscription_days&quot;:30},&quot;active_route_name&quot;:&quot;services.script.my_purchases&quot;,&quot;flash&quot;:{&quot;extra_data&quot;:null,&quot;message&quot;:null,&quot;error&quot;:null},&quot;testimonies&quot;:[{&quot;id&quot;:1,&quot;created_at&quot;:&quot;2025-03-07T02:47:57.000000Z&quot;,&quot;updated_at&quot;:&quot;2025-03-07T02:47:57.000000Z&quot;,&quot;star_rating&quot;:5,&quot;content&quot;:&quot;\&quot;Slipcraft has made receipt generation effortless! I love how professional the templates look.\&quot;&quot;,&quot;client_name&quot;:&quot;James O.&quot;,&quot;client_country&quot;:&quot;USA&quot;,&quot;client_avatar_path&quot;:null},{&quot;id&quot;:2,&quot;created_at&quot;:&quot;2025-03-07T02:55:27.000000Z&quot;,&quot;updated_at&quot;:&quot;2025-03-07T02:55:27.000000Z&quot;,&quot;star_rating&quot;:5,&quot;content&quot;:&quot;\&quot;Slipcraft is a lifesaver! I needed a quick way to generate bank receipts, and this platform delivered perfectly.\&quot;&quot;,&quot;client_name&quot;:&quot;Tunde A.&quot;,&quot;client_country&quot;:&quot;Lagos, Nigeria&quot;,&quot;client_avatar_path&quot;:null},{&quot;id&quot;:3,&quot;created_at&quot;:&quot;2025-03-07T02:57:09.000000Z&quot;,&quot;updated_at&quot;:&quot;2025-03-07T02:57:09.000000Z&quot;,&quot;star_rating&quot;:5,&quot;content&quot;:&quot;\&quot;I love how I can select my bank, and the receipt looks exactly like the official ones. Super reliable!\&quot;&quot;,&quot;client_name&quot;:&quot;Chidinma O.&quot;,&quot;client_country&quot;:&quot;Abuja, Nigeria&quot;,&quot;client_avatar_path&quot;:null},{&quot;id&quot;:4,&quot;created_at&quot;:&quot;2025-03-07T02:57:57.000000Z&quot;,&quot;updated_at&quot;:&quot;2025-03-07T02:57:57.000000Z&quot;,&quot;star_rating&quot;:5,&quot;content&quot;:&quot;\&quot;Being able to send receipts via email instantly is a game-changer for my business!\&quot;&quot;,&quot;client_name&quot;:&quot;Ahmed S.&quot;,&quot;client_country&quot;:&quot;UAE&quot;,&quot;client_avatar_path&quot;:null},{&quot;id&quot;:5,&quot;created_at&quot;:&quot;2025-03-07T03:07:27.000000Z&quot;,&quot;updated_at&quot;:&quot;2025-03-07T03:07:27.000000Z&quot;,&quot;star_rating&quot;:5,&quot;content&quot;:&quot;\&quot;I\u2019ve used other receipt generators before, but this one is by far the best. The Nigerian bank templates are spot on!\&quot;&quot;,&quot;client_name&quot;:&quot;Adebayo S.&quot;,&quot;client_country&quot;:&quot;Ibadan, Nigeria&quot;,&quot;client_avatar_path&quot;:null},{&quot;id&quot;:6,&quot;created_at&quot;:&quot;2025-03-07T03:08:20.000000Z&quot;,&quot;updated_at&quot;:&quot;2025-03-07T03:08:20.000000Z&quot;,&quot;star_rating&quot;:5,&quot;content&quot;:&quot;\&quot;Being able to generate bank-styled receipts and send them via email is just what I needed. Highly recommended!\&quot;&quot;,&quot;client_name&quot;:&quot;Fatima Y.&quot;,&quot;client_country&quot;:&quot;Kano, Nigeria&quot;,&quot;client_avatar_path&quot;:null},{&quot;id&quot;:7,&quot;created_at&quot;:&quot;2025-03-07T03:09:10.000000Z&quot;,&quot;updated_at&quot;:&quot;2025-03-07T03:09:10.000000Z&quot;,&quot;star_rating&quot;:5,&quot;content&quot;:&quot;\&quot;The interface is super easy to use, and the emails look just like real transaction alerts!\&quot;&quot;,&quot;client_name&quot;:&quot;Priya N.&quot;,&quot;client_country&quot;:&quot;India&quot;,&quot;client_avatar_path&quot;:null},{&quot;id&quot;:8,&quot;created_at&quot;:&quot;2025-03-07T03:10:07.000000Z&quot;,&quot;updated_at&quot;:&quot;2025-03-07T03:10:07.000000Z&quot;,&quot;star_rating&quot;:5,&quot;content&quot;:&quot;\&quot;Secure, reliable, and fast. It\u2019s the best receipt generator I\u2019ve used so far!\&quot;&quot;,&quot;client_name&quot;:&quot;Michael T.&quot;,&quot;client_country&quot;:&quot;South Africa&quot;,&quot;client_avatar_path&quot;:null}],&quot;purchases&quot;:[]},&quot;url&quot;:&quot;\/services\/scripts\/my-purchases&quot;,&quot;version&quot;:&quot;3c94f3f08316d3a820144d857ed7b545&quot;,&quot;encryptHistory&quot;:false,&quot;clearHistory&quot;:false}"></div>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "slipcraft",
+  "version": "1.0.0",
+  "description": "A spot to craft your receipt",
+  "private": true,
+  "scripts": {
+    "dev": "powershell -ExecutionPolicy Bypass -File ./serve.ps1 -Port 8080",
+    "server": "powershell -ExecutionPolicy Bypass -File ./serve.ps1 -Port 8080",
+    "start": "powershell -ExecutionPolicy Bypass -File ./serve.ps1 -Port 8080"
+  },
+  "keywords": ["receipt", "slipcraft", "points"],
+  "author": "SlipCraft Team",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

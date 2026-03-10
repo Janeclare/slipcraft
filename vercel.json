@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/referral", "destination": "/services/referral.html" },
+    { "source": "/buy-points", "destination": "/buy-point.html" },
+    { "source": "/profile/edit", "destination": "/profile.html" },
+    { "source": "/:page(dashboard|about|contact|help|login|register|orders|services|vendors|transactions|buy-point|profile)", "destination": "/:page.html" },
+    { "source": "/services/:slug", "destination": "/services/:slug.html" },
+    { "source": "/services/:group/:slug", "destination": "/services/:group/:slug.html" },
+    { "source": "/services/:group/:subgroup/:slug", "destination": "/services/:group/:subgroup/:slug.html" }
+  ]
+}

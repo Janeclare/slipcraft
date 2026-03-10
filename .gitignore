@@ -1,0 +1,14 @@
+node_modules/
+vendor/
+.env
+.idea
+.vscode/
+
+# Ignore compiled dashboard files if applicable, however we're using them statically
+# build/
+
+# Mac OS files
+.DS_Store
+
+# PowerShell temporary execution files
+/tmp/
