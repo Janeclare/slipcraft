@@ -162,10 +162,9 @@
     } catch (_) {}
   }, true);
 
-  // Intercept link clicks
-  // FIX: Use bubble phase (false) and DON'T call stopImmediatePropagation.
-  // Calling stopImmediatePropagation was blocking ALL other click handlers
-  // on the page — causing "mouse not responding" on elements we didn't match.
+  // Intercept link clicks in CAPTURE phase — runs before Inertia's handlers.
+  // For matched routes: block Inertia entirely and do full page navigation.
+  // For unmatched routes: do nothing, let Inertia/browser handle normally.
   document.addEventListener('click', function (e) {
     if (e.defaultPrevented || e.button !== 0) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -184,11 +183,12 @@
     if (el.target && el.target !== '_self') return;
 
     const dest = maybeNavigate(el.href);
-    if (!dest) return; // Don't intercept — let browser/Inertia handle it
+    if (!dest) return; // Not our route — let Inertia handle it
 
+    // Block Inertia from seeing this click (prevents overlay rendering)
     e.preventDefault();
-    // FIX: Removed stopImmediatePropagation — was causing mouse unresponsiveness
+    e.stopImmediatePropagation();
     window.location.assign(dest);
-  }, false); // bubble phase, not capture
+  }, true); // ← CAPTURE phase: fires before Inertia
 
 })();
