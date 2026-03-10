@@ -260,6 +260,14 @@
       return;
     }
 
+    // Fetch real profile from profiles table
+    let profileRow = null;
+    const profileData = syncGet(
+      'profiles?select=*&id=eq.' + encodeURIComponent(session.user.id),
+      session.access_token
+    );
+    if (Array.isArray(profileData) && profileData.length) profileRow = profileData[0];
+
     // Fetch real wallet balance
     let walletRow = null;
     const walletData = syncGet(
@@ -269,7 +277,7 @@
     if (Array.isArray(walletData) && walletData.length) walletRow = walletData[0];
 
     // Patch auth.user with REAL data from Supabase
-    const existingUser = page.props.auth.user || {};
+    const existingUser = Object.assign({}, page.props.auth.user || {}, profileRow || {});
     page.props.auth.user = buildUserObject(session.user, walletRow, existingUser);
 
     // Fetch page-specific data
@@ -587,9 +595,9 @@
   }
 
   // ─── CLICK INTERCEPTOR (SPA navigation) ────────────────────────────────────
-  // FIX: Uses window.location.assign instead of stopImmediatePropagation
-  // so Inertia's own handlers still fire when we DON'T handle the click.
-  // This fixes the "mouse not responding" issue.
+  // Runs in CAPTURE phase so it fires BEFORE Inertia's click handler.
+  // For links we can resolve → stopImmediatePropagation + full page navigate.
+  // For links we can't resolve → do nothing (let Inertia/browser handle).
   function installLinkInterceptor() {
     document.addEventListener('click', function (e) {
       if (e.defaultPrevented || e.button !== 0) return;
@@ -609,13 +617,13 @@
       if (el.target && el.target !== '_self') return;
 
       const dest = navigateTo(el.href);
-      if (!dest) return; // Let Inertia/browser handle it — DON'T stopImmediatePropagation
+      if (!dest) return; // Not our route — let Inertia handle it normally
 
+      // We matched a route: block Inertia from seeing this click entirely
       e.preventDefault();
-      // FIX: Do NOT call stopImmediatePropagation — only prevent default.
-      // This avoids blocking Inertia's handlers on links we didn't match.
-      window.location.assign(dest);
-    }, false); // Use bubble phase (false) not capture, so Inertia capture listeners run first
+      e.stopImmediatePropagation(); // prevents Inertia overlay rendering
+      window.location.assign(dest); // full page navigation to .html file
+    }, true); // ← CAPTURE phase: runs before Inertia's handlers
   }
 
   // ─── INERTIA:BEFORE INTERCEPTOR ────────────────────────────────────────────
