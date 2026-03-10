@@ -80,8 +80,18 @@
       name: displayName,
       email: user.email || 'user@example.com',
       username: meta.username || displayName,
+      whatsapp_number: meta.whatsapp_number || null,
+      referrer_username: meta.referrer_username || null,
       point_main_balance: walletRow && typeof walletRow.main_points === 'number' ? walletRow.main_points : 0,
-      point_holding_balance: walletRow && typeof walletRow.holding_points === 'number' ? walletRow.holding_points : 0
+      point_holding_balance: walletRow && typeof walletRow.holding_points === 'number' ? walletRow.holding_points : 0,
+      // Clear out the hardcoded mock balances that come from the static HTML
+      opay_balance: 0,
+      kuda_balance: 0,
+      palmpay_balance: 0,
+      role: 'user',
+      vendor: 'no',
+      manager: 'no',
+      status: 'active'
     };
   }
 
